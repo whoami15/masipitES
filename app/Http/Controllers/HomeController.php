@@ -99,4 +99,16 @@ class HomeController extends Controller
             ->with('teachers',$teachers);
     }
 
+    public function getTerms()
+    {
+
+        return view('home.terms');
+    }
+
+    public function getPrivacy()
+    {
+
+        return view('home.privacy');
+    }
+
 }

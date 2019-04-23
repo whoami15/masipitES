@@ -22,6 +22,9 @@ Route::middleware(['GrahamCampbell\Throttle\Http\Middleware\ThrottleMiddleware:1
 	Route::post('/login', array('as' => 'login','uses' => 'Auth\LoginController@postLogin'));
     Route::get('/logout', array('as' => 'logout','uses' => 'Auth\LoginController@logout'));
 
+    Route::get('/terms-of-use', array('as' => 'get-terms', 'uses' => 'HomeController@getTerms'));
+    Route::get('/privacy-policy', array('as' => 'get-policy', 'uses' => 'HomeController@getPrivacy'));
+
     Route::get('/news', array('as' => 'get-home-news', 'uses' => 'HomeController@getNews'));
     Route::get('/news/{slug}', array('as' => 'get-home-news-view-post', 'uses' => 'HomeController@getViewNews'));
 
