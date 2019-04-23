@@ -1,0 +1,11 @@
+/* Text Theme Color */
+a:hover, h1, h3, .menuzord.red .menuzord-menu > li.active > a, .menuzord.red .menuzord-menu > li:hover > a, .menuzord.red .menuzord-menu ul.dropdown li:hover > a, .breadcrumb h1, .social-icons ul li a:hover, .sidebar-head, .like-icons:hover, .comments-icon:hover, .more-links, .link-post a:hover, .blog-title a:hover, .masonary-wrap .cbp-l-loadMore-button .cbp-l-loadMore-link, .masonary-wrap .cbp-l-loadMore-button .cbp-l-loadMore-button-link, .sinlepost-navigation a:hover h4, .list-colored li i, .btn-border-round:hover, .theme-tab .nav-tabs > li.active > a, .theme-tab .nav-tabs > li.active > a:hover, .theme-tab .nav-tabs > li.active > a:focus, .jumbotron h1, #main-slider-boxed .blog-post .blog-outer a:hover, #sidebar-post .blog-post .blog-outer a:hover{color:#fe4444;}
+
+
+/* Background Theme Color */
+#back-top a:hover, #nav-wrap, .menuzord.red, .breadcrumb small::after, .social-icons.footer ul li a:hover, #contact_form .form-btn, .owl-nav .owl-prev:hover, .owl-nav .owl-next:hover, #body-content .cbp-l-loadMore-button .cbp-l-loadMore-link:hover, #body-content .cbp-l-loadMore-button .cbp-l-loadMore-button-link:hover, .share-post h4, .post-tag a:hover, .sinlepost-navigation a:hover i, .dropcap, .dropcap2, .btn-round, .theme-accordian .panel-default > .panel-heading, .theme-tab .nav > li > a:hover, .trending, .owl-controls .owl-dot.active span, .owl-controls.clickable .owl-dot:hover span, .owl-controls .owl-dot:hover span{background-color:#fe4444;}
+
+/* Border Theme Color */
+.meta span, .owl-nav .owl-prev:hover, .owl-nav .owl-next:hover, .sinlepost-navigation a:hover i, .btn-border-round:hover, .theme-tab .nav > li > a:hover{
+	border-color:#fe4444;
+}
