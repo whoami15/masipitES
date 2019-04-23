@@ -41,8 +41,8 @@ class FacultyController extends Controller
         $user = Auth::user();
         $total_announcements = Announcement::where('user_id', $user->id)->where('status', 1)->count();
         $total_announcements_today = Announcement::where('user_id', $user->id)->where('status', 1)->whereDate('created_at', Carbon::today())->count();
-        $total_learning_materials = LearningMaterial::where('user_id', $user->id)->where('status', 1)->count();
-        $total_learning_materials_today = LearningMaterial::where('user_id', $user->id)->where('status', 1)->whereDate('created_at', Carbon::today())->count();
+        $total_learning_materials = LearningMaterial::where('status', 1)->count();
+        $total_learning_materials_today = LearningMaterial::where('status', 1)->whereDate('created_at', Carbon::today())->count();
         $total_message = PublicMessage::count();
         $total_message_today = PublicMessage::whereDate('created_at', Carbon::today())->count();
         $announcements = Announcement::with('user')->where('status', 1)->orderBy('created_at', 'desc')->take(5)->get();
@@ -69,7 +69,7 @@ class FacultyController extends Controller
         if ($request->wantsJson()) {
 
             $user = Auth::user();
-            $learning_materials = LearningMaterial::with('user','subject_user','grade_level_user')->where('user_id', $user->id)->orderBy('created_at', 'desc');
+            $learning_materials = LearningMaterial::with('user','subject_user','grade_level_user')->orderBy('created_at', 'desc');
 
             if($learning_materials){
 
@@ -94,11 +94,15 @@ class FacultyController extends Controller
                     }
                 })
                 ->addColumn('action', function ($learning_materials) {
-                    if($learning_materials->status == 1){
-                        return '<a href="/faculty/file/'.$learning_materials->uuid.'/download">Download</a> |
-                        <a href="/faculty/file/'.$learning_materials->uuid.'/delete">Delete</a>';
+                    if($learning_materials->user_id == Auth::user()->id){
+                        if($learning_materials->status == 1){
+                            return '<a href="/faculty/file/'.$learning_materials->uuid.'/download">Download</a> |
+                            <a href="/faculty/file/'.$learning_materials->uuid.'/delete">Delete</a>';
+                        }else{
+                            return '<a href="/faculty/file/'.$learning_materials->uuid.'/retrieve">Retrieve</a>';
+                        }
                     }else{
-                        return '<a href="/faculty/file/'.$learning_materials->uuid.'/retrieve">Retrieve</a>';
+                        return '<a href="/faculty/file/'.$learning_materials->uuid.'/download">Download</a>';
                     }
                     
                 })
