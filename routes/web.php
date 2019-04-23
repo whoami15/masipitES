@@ -126,6 +126,10 @@ Route::middleware(['GrahamCampbell\Throttle\Http\Middleware\ThrottleMiddleware:1
     Route::post('/admin/profile', array('as' => 'post-admin-profile','uses' => 'AdminController@postgetAdminProfile'));
     Route::post('/admin/profile/password', array('as' => 'post-admin-profile-password','uses' => 'AdminController@postAdminProfilePassword'));
 
+    Route::get('/admin/contact', array('as' => 'get-admin-contact','uses' => 'AdminController@getAdminContact'));
+    Route::get('/admin/contact-data', array('as' => 'get-admin-contact-data','uses' => 'AdminController@getAdminContactData'));
+    Route::get('/admin/contact/view/{id}', array('as' => 'get-admin-contact-view','uses' => 'AdminController@getAdminViewContact'));
+
 
     Route::get('/faculty', array('as' => 'get-faculty','uses' => 'FacultyController@getFacultyDashboard'));
     Route::get('/faculty/elearning', array('as' => 'get-faculty-elearning','uses' => 'FacultyController@getFacultyLearningMaterial'));

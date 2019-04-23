@@ -52,7 +52,8 @@
 					<a href="#" class="nav-link"><span class="pcoded-micon"><i class="feather icon-menu"></i></span><span class="pcoded-mtext">Messages</span></a>
 					<ul class="pcoded-submenu">
                         <li class=""><a href="{{ url('/admin/messages/public') }}" class="">Public</a></li>
-                        <!--li class=""><a href="{{ url('/admin/messages/private') }}" class="">Private</a></li-->
+						<!--li class=""><a href="{{ url('/admin/messages/private') }}" class="">Private</a></li-->
+						<li class=""><a href="{{ url('/admin/contact') }}" class="">Contact Us</a></li>
 					</ul>
 				</li>
 				<li data-username="menu levels menu level 2.1 menu level 2.2" class="nav-item pcoded-hasmenu">

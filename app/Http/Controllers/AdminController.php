@@ -31,6 +31,7 @@ use App\News;
 use App\Events;
 use App\PublicMessage;
 use App\PrivateMessage;
+use App\Contact;
 use Hash;
 use DB;
 use Session;
@@ -502,7 +503,7 @@ class AdminController extends Controller
                 ->with('announcement',$announcement);
         }else{
             
-            return redirect('/faculty/announcements');
+            return redirect('/admin/announcements');
         }
     }
 
@@ -2096,6 +2097,76 @@ class AdminController extends Controller
 
             return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
         }           
+    }
+
+    public function getAdminContact(){
+
+        $user = Auth::user();
+
+        return view('admin.contact.list')->with('user', $user);
+    }
+
+    public function getAdminContactData(Request $request){
+        
+        if ($request->wantsJson()) {
+
+            $user = Auth::user();
+
+            $contact = Contact::orderBy('created_at', 'desc');
+
+            if($contact){
+
+                return Datatables::of($contact)
+                ->editColumn('name', function ($contact) {
+                    return ucwords($contact->name);
+                })
+                ->editColumn('subject', function ($contact) {
+                    return $contact->subject;
+                })
+                ->editColumn('content', function ($contact) {
+                    return str_limit($contact->content, 15);
+                })
+                ->addColumn('action', function ($contact) {
+            
+                    return '<a href="/admin/contact/view/'.$contact->id.'">View</a>';
+                })
+                ->addColumn('id', function ($contact) {
+
+                    return $contact->id;
+                })
+                ->addColumn('date', function ($contact) {
+                    return date('F j, Y g:i a', strtotime($contact->created_at));
+                })
+                ->addIndexColumn()
+                ->rawColumns(['name','subject','content','action','id','date'])
+                ->make(true);
+
+            }else{
+
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+            }
+        } else {
+            
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
+        
+    }
+
+    public function getAdminViewContact($id){
+
+        $user = Auth::user();
+
+        $contact = Contact::where('id', $id)->first();
+
+        if($contact){
+
+            return view('admin.contact.view')
+                ->with('user', $user)
+                ->with('contact',$contact);
+        }else{
+            
+            return redirect('/admin/contact');
+        }
     }
 
 }
