@@ -3,7 +3,7 @@ a:hover, h1, h3, .menuzord.red .menuzord-menu > li.active > a, .menuzord.red .me
 
 
 /* Background Theme Color */
-#back-top a:hover, #nav-wrap, .menuzord.red, .breadcrumb small::after, .social-icons.footer ul li a:hover, #contact_form .form-btn, .owl-nav .owl-prev:hover, .owl-nav .owl-next:hover, #body-content .cbp-l-loadMore-button .cbp-l-loadMore-link:hover, #body-content .cbp-l-loadMore-button .cbp-l-loadMore-button-link:hover, .share-post h4, .post-tag a:hover, .sinlepost-navigation a:hover i, .dropcap, .dropcap2, .btn-round, .theme-accordian .panel-default > .panel-heading, .theme-tab .nav > li > a:hover, .trending, .owl-controls .owl-dot.active span, .owl-controls.clickable .owl-dot:hover span, .owl-controls .owl-dot:hover span{background-color:#40aae6;}
+#back-top a:hover, #nav-wrap, .menuzord.red, .breadcrumb small::after, .social-icons.footer ul li a:hover, #new_contact_form .form-btn, .owl-nav .owl-prev:hover, .owl-nav .owl-next:hover, #body-content .cbp-l-loadMore-button .cbp-l-loadMore-link:hover, #body-content .cbp-l-loadMore-button .cbp-l-loadMore-button-link:hover, .share-post h4, .post-tag a:hover, .sinlepost-navigation a:hover i, .dropcap, .dropcap2, .btn-round, .theme-accordian .panel-default > .panel-heading, .theme-tab .nav > li > a:hover, .trending, .owl-controls .owl-dot.active span, .owl-controls.clickable .owl-dot:hover span, .owl-controls .owl-dot:hover span{background-color:#40aae6;}
 
 /* Border Theme Color */
 .meta span, .owl-nav .owl-prev:hover, .owl-nav .owl-next:hover, .sinlepost-navigation a:hover i, .btn-border-round:hover, .theme-tab .nav > li > a:hover{

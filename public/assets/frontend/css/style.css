@@ -957,7 +957,7 @@ blockquote.blockquote-2:hover, .link-post:hover{
 	box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.07);
 }
 /* -- 10. Contact Form -- */
-#contact_form .form-control{
+#new_contact_form .form-control{
 	background:#FFF;
 	border:1px solid #d7d8da;
 	border-radius:2px;
@@ -973,7 +973,7 @@ label.error{
 	padding:0 0 10px 0;
 	margin:0;
 }
-#contact_form .form-btn{
+#new_contact_form .form-btn{
 	display:block;
 	background:#fe4444;
 	color:#FFF;
@@ -989,7 +989,7 @@ label.error{
 	-o-transition: all 0.15s linear;
 	transition: all 0.15s linear;
 }
-#contact_form .form-btn:hover{
+#new_contact_form .form-btn:hover{
 	background:#323232;
 	color:#FFF;
 }

@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Home\ContactRequest;
 use Carbon\Carbon;
 use App\User;
 use App\News;
+use App\Contact;
 use App\Events;
 use Hash;
 use DB;
+use Redirect;
+use Session;
 
 class HomeController extends Controller
 {
@@ -109,6 +113,43 @@ class HomeController extends Controller
     {
 
         return view('home.privacy');
+    }
+    
+    public function getContact()
+    {
+
+        return view('home.contact');
+    }
+
+    public function postContact(ContactRequest $request)
+    {
+
+        try {
+
+            $count_messages = Contact::whereDate('created_at',Carbon::today())->count();
+
+            if($count_messages < 10){
+
+                $contact = new Contact();
+                $contact->name = $request->name;
+                $contact->email = $request->email;
+                $contact->subject = $request->subject;
+                $contact->content = $request->content;
+                $contact->save();
+
+                Session::flash('success', "Successfully sent.");
+                return redirect('/contact');
+            }else{
+
+                Session::flash('danger', "Sorry, but we have reach the limit of message for today. Please try again tomorrow, Thank you.");
+                return Redirect::back();
+            }
+
+        }catch(\Exception $e){
+
+            Session::flash('danger', $e->getMessage());
+            return Redirect::back();
+        }
     }
 
 }
