@@ -222,7 +222,7 @@
                $('#decline_btn'+id).hide();
                $('#processing'+id).show();
 
-               var status = 1;
+               var status = 2;
                $http({
                    method: 'POST',
                    url: '/admin/decline/'+id+'/status',

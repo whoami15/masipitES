@@ -35,6 +35,7 @@ Route::middleware(['GrahamCampbell\Throttle\Http\Middleware\ThrottleMiddleware:1
     Route::get('/admin/pending', array('as' => 'get-admin-pending-users','uses' => 'AdminController@getAdminPendingUsers'));
     Route::get('/admin/pending-data', array('as' => 'get-admin-pending-users-data','uses' => 'AdminController@getAdminPendingUsersData'));
     Route::post('/admin/accept/{id}/status', array('as' => 'get-admin-accept-user','uses' => 'AdminController@postAdminAcceptUser'));
+    Route::post('/admin/decline/{id}/status', array('as' => 'get-admin-decline-user','uses' => 'AdminController@postAdminDeclineUser'));
 
     Route::get('/admin/list', array('as' => 'get-admin-list-users','uses' => 'AdminController@getAdminListUsers'));
     Route::get('/admin/userlist-data', array('as' => 'get-admin-list-user-data','uses' => 'AdminController@getAdminListUsersData'));

@@ -104,6 +104,36 @@ class AdminController extends Controller
 
     }
 
+    public function postAdminDeclineUser($id, Request $request) {
+
+        if ($request->wantsJson()) {
+
+            try{
+                //find user
+                $user = User::find($id);
+
+                if($user){
+
+                    $user->status = 2;
+                    $user->updated_at = Carbon::now();
+                    $user->save();
+
+                    return response()->json(array("result"=>true,"message"=>'User successfully declined.'),200);
+                }else{
+
+                    return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+                }
+
+            }catch(\Exception $e){
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+            }
+        }else{
+
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
+
+    }
+
     public function getAdminPendingUsers() {
 
         $user = Auth::user();
