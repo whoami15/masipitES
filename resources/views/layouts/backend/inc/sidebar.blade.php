@@ -67,9 +67,9 @@
 					<ul class="pcoded-submenu">
                         <li class=""><a href="{{ url('/admin/settings/subject') }}" class="">Subject</a></li>
 						<li class=""><a href="{{ url('/admin/settings/grade-level') }}" class="">Grade Level</a></li>
-						<!--li class=""><a href="{{ url('/admin/settings/school-year') }}" class="">School Year</a></li>
+						<li class=""><a href="{{ url('/admin/settings/school-year') }}" class="">School Year</a></li>
 						<li class=""><a href="{{ url('/admin/settings/position') }}" class="">Position</a></li>
-						<li class=""><a href="{{ url('/admin/settings/department') }}" class="">Department</a></li-->
+						<li class=""><a href="{{ url('/admin/settings/department') }}" class="">Department</a></li>
 					</ul>
 				</li>
                 @endif

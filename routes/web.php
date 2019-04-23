@@ -74,6 +74,24 @@ Route::middleware(['GrahamCampbell\Throttle\Http\Middleware\ThrottleMiddleware:1
     Route::get('/admin/settings/grade/{id}/delete', array('as' => 'get-admin-settings-grade-delete','uses' => 'AdminController@deleteGradeLevel'));
     Route::get('/admin/settings/grade/{id}/retrieve', array('as' => 'get-admin-settings-grade-retrieve','uses' => 'AdminController@retrieveGradeLevel'));
 
+    Route::get('/admin/settings/department', array('as' => 'get-admin-settings-department','uses' => 'AdminController@getAdminDepartment'));
+    Route::get('/admin/settings/department-data', array('as' => 'get-admin-settings-department-data','uses' => 'AdminController@getAdminDepartmentData'));
+    Route::get('/admin/settings/department/add', array('as' => 'get-admin-settings-department-add','uses' => 'AdminController@getAdminAddDepartment'));
+    Route::post('/admin/settings/department/add', array('as' => 'post-admin-settings-department-add','uses' => 'AdminController@postAdminAddDepartment'));
+    Route::get('/admin/settings/department/edit/{id}', array('as' => 'get-admin-settings-department-edit','uses' => 'AdminController@getAdminEditDepartment'));
+    Route::post('/admin/settings/department/{id}/edit', array('as' => 'post-admin-settings-department-edit','uses' => 'AdminController@postAdminEditDepartment'));
+    Route::get('/admin/settings/department/{id}/delete', array('as' => 'get-admin-settings-department-delete','uses' => 'AdminController@deleteDepartment'));
+    Route::get('/admin/settings/department/{id}/retrieve', array('as' => 'get-admin-settings-department-retrieve','uses' => 'AdminController@retrieveDepartment'));
+
+    Route::get('/admin/settings/position', array('as' => 'get-admin-settings-position','uses' => 'AdminController@getAdminPosition'));
+    Route::get('/admin/settings/position-data', array('as' => 'get-admin-settings-position-data','uses' => 'AdminController@getAdminPositionData'));
+    Route::get('/admin/settings/position/add', array('as' => 'get-admin-settings-position-add','uses' => 'AdminController@getAdminAddPosition'));
+    Route::post('/admin/settings/position/add', array('as' => 'post-admin-settings-position-add','uses' => 'AdminController@postAdminAddPosition'));
+    Route::get('/admin/settings/position/edit/{id}', array('as' => 'get-admin-settings-position-edit','uses' => 'AdminController@getAdminEditPosition'));
+    Route::post('/admin/settings/position/{id}/edit', array('as' => 'post-admin-settings-position-edit','uses' => 'AdminController@postAdminEditPosition'));
+    Route::get('/admin/settings/position/{id}/delete', array('as' => 'get-admin-settings-position-delete','uses' => 'AdminController@deletePosition'));
+    Route::get('/admin/settings/position/{id}/retrieve', array('as' => 'get-admin-settings-position-retrieve','uses' => 'AdminController@retrievePosition'));
+
     Route::get('/admin/news', array('as' => 'get-admin-news','uses' => 'AdminController@getAdminNews'));
     Route::get('/admin/news-data', array('as' => 'get-admin-news-data','uses' => 'AdminController@getAdminNewsData'));
     Route::get('/admin/news/create', array('as' => 'get-admin-news-create','uses' => 'AdminController@getAdminCreateNews'));

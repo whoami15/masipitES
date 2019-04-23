@@ -8,6 +8,10 @@ use App\Http\Requests\Admin\AddSubjectRequest;
 use App\Http\Requests\Admin\EditSubjectRequest;
 use App\Http\Requests\Admin\AddGradeLevelRequest;
 use App\Http\Requests\Admin\EditGradeLevelRequest;
+use App\Http\Requests\Admin\AddDepartmentRequest;
+use App\Http\Requests\Admin\EditDepartmentRequest;
+use App\Http\Requests\Admin\AddPositionRequest;
+use App\Http\Requests\Admin\EditPositionRequest;
 use App\Http\Requests\Admin\AddNewsRequest;
 use App\Http\Requests\Admin\AddEventsRequest;
 use App\Http\Requests\Admin\EditNewsRequest;
@@ -21,6 +25,8 @@ use App\SecurityKeys;
 use App\LearningMaterial;
 use App\Subject;
 use App\GradeLevel;
+use App\Department;
+use App\Position;
 use App\News;
 use App\Events;
 use App\PublicMessage;
@@ -1094,6 +1100,422 @@ class AdminController extends Controller
             }else{
 
                 return redirect('/admin/settings/grade-level');
+            }
+
+        }catch(\Exception $e){
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+        }
+    }
+
+    public function getAdminDepartment() {
+
+        $user = Auth::user();
+        
+        return view('admin.settings.department.list')->with('user',$user);
+    }
+
+    public function getAdminDepartmentData(Request $request) {
+
+        if ($request->wantsJson()) {
+
+            $user = Auth::user();
+            $department = Department::orderBy('created_at', 'desc');
+
+            if($department){
+
+                return Datatables::of($department)
+                ->editColumn('department', function ($department) {
+                    return $department->department;
+                })
+                ->editColumn('description', function ($department) {
+                    return str_limit($department->description, 15);
+                })
+                ->editColumn('status', function ($department) {
+                    if($department->status == 1){
+                        return '<mark>Active</mark>';
+                    }else{
+                        return '<mark>Inactive</mark>';
+                    }
+                })
+                ->addColumn('action', function ($department) {
+                    if($department->status == 1){
+                        return '<a href="/admin/settings/department/edit/'.$department->id.'">Edit</a> |
+                        <a href="/admin/settings/department/'.$department->id.'/delete">Delete</a>';
+                    }else{
+                        return '<a href="/admin/settings/department/'.$department->id.'/retrieve">Retrieve</a>';
+                    }
+                })
+                ->addColumn('id', function ($department) {
+
+                    return $department->id;
+                })
+                ->addColumn('date', function ($department) {
+                    return date('F j, Y g:i a', strtotime($department->created_at));
+                })
+                ->addIndexColumn()
+                ->rawColumns(['department','description','status','action','id','date'])
+                ->make(true);
+
+            }else{
+
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+            }
+        } else {
+            
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
+
+    }
+
+    public function getAdminAddDepartment() {
+
+        $user = Auth::user();
+
+        $department = Subject::get();
+
+        return view('admin.settings.department.create')
+            ->with('user',$user)
+            ->with('department',$department);
+    }
+
+    public function postAdminAddDepartment(AddDepartmentRequest $request) {
+
+        if ($request->wantsJson()) {
+
+            try{
+
+                $user = Auth::user();
+
+                $check = Department::select('department')->first();
+
+                if($check){
+
+                    if(strToLower($check->department) == strToLower($request->department)){
+
+                        return response()->json(array("result"=>false,"message"=> "Department already exists."),422);
+
+                    }else{
+
+                        $department = new Department();
+                        $department->department = $request->department;
+                        $department->description = addslashes($request->description);
+                        $department->save();
+
+                        return response()->json(array("result"=>true,"message"=> "Department successfully added.") ,200);
+                    }
+
+                } else {
+
+                    $department = new Department();
+                    $department->department = $request->department;
+                    $department->description = addslashes($request->description);
+                    $department->save();
+
+                    return response()->json(array("result"=>true,"message"=> "Department successfully added.") ,200);
+                }
+            }catch(\Exception $e){
+
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+            }
+
+        } else {
+
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
+        
+    }
+
+    public function getAdminEditDepartment($id) {
+
+        $user = Auth::user();
+        
+        $department = Department::get();
+        $getdepartment = Department::find($id);
+        
+        return view('admin.settings.department.edit')
+            ->with('user',$user)
+            ->with('department',$department)
+            ->with('getdepartment',$getdepartment);
+    }
+
+    public function postAdminEditDepartment($id, EditDepartmentRequest $request) {
+
+        if ($request->wantsJson()) {
+
+            try{
+
+                $user = Auth::user();
+
+                $check = Department::select('department')->first();
+
+                if(strToLower($check->department) == strToLower($request->department)){
+
+                    return response()->json(array("result"=>false,"message"=> "Department already exists."),422);
+
+                }else{
+
+                    $department = Department::where('id', $id)->first();
+                    $department->department = $request->department;
+                    $department->description = addslashes($request->description);
+                    $department->save();
+
+                    return response()->json(array("result"=>true,"message"=> "Department successfully updated.") ,200);
+
+                }
+
+            }catch(\Exception $e){
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+            }
+
+        } else {
+
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
+    }
+
+    public function deleteDepartment($id){
+
+        try{
+
+            $department = Department::where('id', $id)->first();
+            if($department){
+
+                $department->status = 0;
+                $department->save();
+
+                return redirect('/admin/settings/department');
+            }else{
+
+                return redirect('/admin/settings/department');
+            }
+
+        }catch(\Exception $e){
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+        }
+    }
+
+    public function retrieveDepartment($id){
+
+        try{
+
+            $department = Department::where('id', $id)->first();
+            if($department){
+
+                $department->status = 1;
+                $department->save();
+
+                return redirect('/admin/settings/department');
+            }else{
+
+                return redirect('/admin/settings/department');
+            }
+
+        }catch(\Exception $e){
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+        }
+    }
+
+    public function getAdminPosition() {
+
+        $user = Auth::user();
+        
+        return view('admin.settings.position.list')->with('user',$user);
+    }
+
+    public function getAdminPositionData(Request $request) {
+
+        if ($request->wantsJson()) {
+
+            $user = Auth::user();
+            $position = Position::orderBy('created_at', 'desc');
+
+            if($position){
+
+                return Datatables::of($position)
+                ->editColumn('position', function ($position) {
+                    return $position->position;
+                })
+                ->editColumn('description', function ($position) {
+                    return str_limit($position->description, 15);
+                })
+                ->editColumn('status', function ($position) {
+                    if($position->status == 1){
+                        return '<mark>Active</mark>';
+                    }else{
+                        return '<mark>Inactive</mark>';
+                    }
+                })
+                ->addColumn('action', function ($position) {
+                    if($position->status == 1){
+                        return '<a href="/admin/settings/position/edit/'.$position->id.'">Edit</a> |
+                        <a href="/admin/settings/position/'.$position->id.'/delete">Delete</a>';
+                    }else{
+                        return '<a href="/admin/settings/position/'.$position->id.'/retrieve">Retrieve</a>';
+                    }
+                })
+                ->addColumn('id', function ($position) {
+
+                    return $position->id;
+                })
+                ->addColumn('date', function ($position) {
+                    return date('F j, Y g:i a', strtotime($position->created_at));
+                })
+                ->addIndexColumn()
+                ->rawColumns(['position','description','status','action','id','date'])
+                ->make(true);
+
+            }else{
+
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+            }
+        } else {
+            
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
+
+    }
+
+    public function getAdminAddPosition() {
+
+        $user = Auth::user();
+
+        $position = Position::get();
+
+        return view('admin.settings.position.create')
+            ->with('user',$user)
+            ->with('position',$position);
+    }
+
+    public function postAdminAddPosition(AddPositionRequest $request) {
+
+        if ($request->wantsJson()) {
+
+            try{
+
+                $user = Auth::user();
+
+                $check = Position::select('position')->first();
+
+                if($check){
+
+                    if(strToLower($check->position) == strToLower($request->position)){
+
+                        return response()->json(array("result"=>false,"message"=> "Position already exists."),422);
+
+                    }else{
+
+                        $position = new Position();
+                        $position->position = $request->position;
+                        $position->description = addslashes($request->description);
+                        $position->save();
+
+                        return response()->json(array("result"=>true,"message"=> "Position successfully added.") ,200);
+                    }
+
+                } else {
+
+                    $position = new Position();
+                    $position->position = $request->position;
+                    $position->description = addslashes($request->description);
+                    $position->save();
+
+                    return response()->json(array("result"=>true,"message"=> "Position successfully added.") ,200);
+                }
+            }catch(\Exception $e){
+
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+            }
+
+        } else {
+
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
+        
+    }
+
+    public function getAdminEditPosition($id) {
+
+        $user = Auth::user();
+        
+        $position = Position::get();
+        $getposition = Position::find($id);
+        
+        return view('admin.settings.position.edit')
+            ->with('user',$user)
+            ->with('position',$position)
+            ->with('getposition',$getposition);
+    }
+
+    public function postAdminEditPosition($id, EditPositionRequest $request) {
+
+        if ($request->wantsJson()) {
+
+            try{
+
+                $user = Auth::user();
+
+                $check = Position::select('position')->first();
+
+                if(strToLower($check->position) == strToLower($request->position)){
+
+                    return response()->json(array("result"=>false,"message"=> "Position already exists."),422);
+
+                }else{
+
+                    $position = Position::where('id', $id)->first();
+                    $position->position = $request->position;
+                    $position->description = addslashes($request->description);
+                    $position->save();
+
+                    return response()->json(array("result"=>true,"message"=> "Position successfully updated.") ,200);
+
+                }
+
+            }catch(\Exception $e){
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+            }
+
+        } else {
+
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
+    }
+
+    public function deletePosition($id){
+
+        try{
+
+            $position = Position::where('id', $id)->first();
+            if($position){
+
+                $position->status = 0;
+                $position->save();
+
+                return redirect('/admin/settings/position');
+            }else{
+
+                return redirect('/admin/settings/position');
+            }
+
+        }catch(\Exception $e){
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+        }
+    }
+
+    public function retrievePosition($id){
+
+        try{
+
+            $position = Position::where('id', $id)->first();
+            if($position){
+
+                $position->status = 1;
+                $position->save();
+
+                return redirect('/admin/settings/position');
+            }else{
+
+                return redirect('/admin/settings/position');
             }
 
         }catch(\Exception $e){
