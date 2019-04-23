@@ -170,9 +170,6 @@
                        
                         angular.forEach(data.errors, function(message, key){
 
-                            $('#update_btn').prop('disabled', false);
-                            $('#update_btn').html('Save');
-
                             new PNotify({
                                 title: 'Warning',
                                 text: message,

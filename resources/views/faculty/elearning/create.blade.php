@@ -133,8 +133,8 @@
                     }
                 }).error(function (data) {
 
-                    $('#save_product_btn').prop('disabled', false);
-                    $('#save_product_btn').html('Save');
+                    $('#upload_btn').prop('disabled', false);
+                    $('#upload_btn').html('Save');
 
                     if(data.result == 0){
 
