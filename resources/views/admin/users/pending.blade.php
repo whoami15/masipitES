@@ -210,23 +210,35 @@
                     }).success(function (data) {
                         if (data.result==1){
 
-                            alert(data.message);
+                            new PNotify({
+                                title: 'Success',
+                                text: data.message,
+                                type: 'success'
+                            });
 
                             getdata();
                         }
                     }).error(function (data) {
 
-                      if(data.result == 0){
+                        if(data.result == 0){
 
-                        alert(data.message);
+                            new PNotify({
+                                title: 'Warning',
+                                text: data.message,
+                                type: 'default'
+                            });
 
                         } else {
 
-                          angular.forEach(data.errors, function(message, key){
+                            angular.forEach(data.errors, function(message, key){
 
-                            alert(message);
+                                new PNotify({
+                                    title: 'Warning',
+                                    text: message,
+                                    type: 'default'
+                                });
 
-                          });
+                            });
                         }
                     });
 

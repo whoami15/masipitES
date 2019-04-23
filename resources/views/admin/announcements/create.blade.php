@@ -108,7 +108,7 @@
 
                             new PNotify({
                                 title: 'Warning',
-                                text: data.message,
+                                text: message,
                                 type: 'default'
                             });
 
