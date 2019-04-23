@@ -144,8 +144,6 @@
                             type: 'default'
                         });
 
-                        setTimeout(window.location.href = '/faculty/elearning/upload', 10000);
-
                     } else {
                         
                         angular.forEach(data.errors, function(message, key){
@@ -155,8 +153,6 @@
                                 text: message,
                                 type: 'default'
                             });
-
-                            setTimeout(window.location.href = '/faculty/elearning/upload', 10000);
 
                         });
                     }
