@@ -45,6 +45,24 @@
                     <h5>Learning Materials</h5>
                 </div>
                 <div class="card-body pb-0">
+                    <div class="col-md-12 text-center p-2 mt-2">
+                        <div class="col-md-12 text-center mt-2">
+                            <select class="form-control form-control" name="grade_level" id="grade_level" ng-model="filetype" ng-change="frm.orderby()" >
+                                <option selected="selected">Select File Type</option>
+                                <option value="PDF">PDF</option> 
+                                <option value="DOCX">DOCX</option> 
+                                <option value="XLSX">XLSX</option>
+                                <option value="XLS">XLS</option>
+                                <option value="CSV">CSV</option>
+                                <option value="PPTX">PPTX</option>
+                                <option value="PPT">PPT</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center p-2 mt-2">
+                        <button class="btn btn-success btn-sm" ng-click="frm.sortby('asc')">File Size (ASC)</button>
+                        <button class="btn btn-primary btn-sm" ng-click="frm.sortby('desc')">File Size (DESC)</button>
+                    </div>
                     <br>
                     <div id="loading">
                         <h3 class="text-center"><i class="fa fa-spinner fa-spin"></i> Please wait...</h3>
@@ -59,6 +77,8 @@
                                         <th>Subject</th>
                                         <th>Grade Level</th>
                                         <th>Downloads</th>
+                                        <th>File Size</th>
+                                        <th>File Type</th>
                                         <th>Status</th>
                                         <th>Date Created</th>
                                         <th>Action</th>
@@ -87,6 +107,20 @@
 
             var vm = this;
 
+            vm.sort_by = 'RECENT';
+            vm.order = 'RECENT';
+
+            vm.sortby = function (sort) {
+                if (sort) vm.sort_by = sort;
+                getdata();
+            }
+
+            vm.orderby = function () {
+                if($scope.filetype) vm.order = $scope.filetype;
+                vm.sort_by = 'RECENT';
+                getdata();
+            }
+
             getdata();
             function getdata() {
 
@@ -112,6 +146,14 @@
                                         if (data.columns[i].data === data.columns[i].name) delete data.columns[i].name;
                                     }
                                     delete data.search.regex;
+
+                                    if(vm.sort_by != 'RECENT') {
+                                        data.sort_by = vm.sort_by;
+                                    }
+
+                                    if(vm.order != 'RECENT') {
+                                        data.order_by =  vm.order;
+                                    }
                                 }
                             },
                             lengthChange: false,
@@ -131,6 +173,8 @@
                                 {data: 'subject', name: 'subject', orderable: false, searchable: false},
                                 {data: 'grade_level', name: 'grade_level', orderable: false, searchable: false},
                                 {data: 'downloads', name: 'downloads', orderable: false, searchable: false},
+                                {data: 'file_size', name: 'file_size', orderable: false, searchable: false},
+                                {data: 'file_type', name: 'file_type', orderable: false, searchable: false},
                                 {data: 'status', name: 'status', orderable: false, searchable: false},
                                 {data: 'date', name: 'date'},
                                 {data: 'action', name: 'action', orderable: false, searchable: false}

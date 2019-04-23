@@ -551,8 +551,39 @@ class AdminController extends Controller
         if ($request->wantsJson()) {
 
             $user = Auth::user();
-            $learning_materials = LearningMaterial::with('user','subject_user')->orderBy('created_at', 'desc');
 
+            if($request->has('sort_by')) {
+
+                $sort = $request->sort_by;
+                $order = strToLower($request->order_by);
+                
+                if ($request->has('order_by')) {
+                    
+                    if($order == 'RECENT'){
+                        $learning_materials = LearningMaterial::with('subject_user')->orderBy('file_size', $sort);
+                    }else{
+                        
+                        $learning_materials = LearningMaterial::with('subject_user')->where('file_type',$order)->orderBy('file_size', $sort);
+                    }
+                } else {
+
+                    if($sort == 'RECENT'){
+                        $learning_materials = LearningMaterial::with('subject_user')->orderBy('created_at', 'desc');
+                    } else {
+                        $learning_materials = LearningMaterial::with('user','subject_user')->orderBy('file_size', $sort);
+                    }
+                    
+                }                   
+            } elseif($request->has('order_by')) {
+
+                $order = strToLower($request->order_by);
+                $learning_materials = LearningMaterial::with('user','subject_user')->where('file_type',$order)->orderBy('created_at', 'desc');
+              
+            } else {
+
+                $learning_materials = LearningMaterial::with('user','subject_user')->orderBy('created_at', 'desc');
+            }
+            
             if($learning_materials){
 
                 return Datatables::of($learning_materials)
@@ -564,6 +595,15 @@ class AdminController extends Controller
                 })
                 ->editColumn('subject', function ($learning_materials) {
                     return '<h6>'.$learning_materials->subject_user->description.'</h6>';
+                })
+                ->editColumn('downloads', function ($learning_materials) {
+                    return $learning_materials->downloads;
+                })
+                ->editColumn('file_size', function ($learning_materials) {
+                    return convert_filesize($learning_materials->file_size);
+                })
+                ->editColumn('file_type', function ($learning_materials) {
+                    return strToUpper($learning_materials->file_type);
                 })
                 ->editColumn('status', function ($learning_materials) {
                     if($learning_materials->status == 1){
@@ -587,7 +627,7 @@ class AdminController extends Controller
                     return date('F j, Y g:i a', strtotime($learning_materials->created_at));
                 })
                 ->addIndexColumn()
-                ->rawColumns(['name','title','subject','status','action','id','date'])
+                ->rawColumns(['name','title','subject','downloads','file_size','file_type','status','action','id','date'])
                 ->make(true);
 
             }else{
@@ -1823,7 +1863,7 @@ class AdminController extends Controller
                 return response()->json(array("result"=>true,"message"=> "Event successfully created.") ,200);
 
             }catch(\Exception $e){
-                return response()->json(array("result"=>false,"message"=>$e->getMessage()),422);
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
             }
 
         } else {
@@ -2049,7 +2089,7 @@ class AdminController extends Controller
                 }
                     
             }catch(\Exception $e){
-                return response()->json(array("result"=>false,"message"=>$e->getMessage()),422);
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
             }
                 
         } else {

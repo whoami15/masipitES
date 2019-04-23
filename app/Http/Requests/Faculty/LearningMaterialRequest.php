@@ -26,7 +26,7 @@ class LearningMaterialRequest extends FormRequest
     {
         return [
             'title' => 'required|min:2',
-            'doc_file' => 'required|mimetypes:.csv,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
+            'doc_file' => 'required|mimetypes:.csv,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation',
             'subject' => 'required|numeric|exists:tbl_class,subject,user_id,'.Auth::user()->id,
             'grade_level' => 'required|numeric|exists:tbl_class,grade_level,user_id,'.Auth::user()->id,
             'description' => 'required|min:2'

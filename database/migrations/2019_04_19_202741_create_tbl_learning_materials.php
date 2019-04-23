@@ -24,6 +24,8 @@ class CreateTblLearningMaterials extends Migration
             $table->string('filename')->nullable();
             $table->string('description', 255)->nullable();
             $table->integer('downloads')->default(0);
+            $table->string('file_size')->nullable();
+            $table->string('file_type')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
 

@@ -37,7 +37,7 @@
                             <div class="form-group">
                                 <label class="form-label">Choose file</label><br>
                                 <input type="file" name="doc_file" id="doc_file" 
-                                accept=".csv, text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/msword, application/pdf,	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+                                accept=".csv, text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/msword, application/pdf,	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Subject</label>

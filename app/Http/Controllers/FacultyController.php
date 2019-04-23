@@ -69,7 +69,38 @@ class FacultyController extends Controller
         if ($request->wantsJson()) {
 
             $user = Auth::user();
-            $learning_materials = LearningMaterial::with('user','subject_user','grade_level_user')->orderBy('created_at', 'desc');
+
+            if($request->has('sort_by')) {
+
+                $sort = $request->sort_by;
+                $order = strToLower($request->order_by);
+                
+                if ($request->has('order_by')) {
+                    
+                    if($order == 'RECENT'){
+                        $learning_materials = LearningMaterial::with('subject_user','grade_level_user')->orderBy('file_size', $sort);
+                    }else{
+                        
+                        $learning_materials = LearningMaterial::with('subject_user','grade_level_user')->where('file_type',$order)->orderBy('file_size', $sort);
+                    }
+                } else {
+
+                    if($sort == 'RECENT'){
+                        $learning_materials = LearningMaterial::with('subject_user','grade_level_user')->orderBy('created_at', 'desc');
+                    } else {
+                        $learning_materials = LearningMaterial::with('subject_user','grade_level_user')->orderBy('file_size', $sort);
+                    }
+                    
+                }                   
+            } elseif($request->has('order_by')) {
+
+                $order = strToLower($request->order_by);
+                $learning_materials = LearningMaterial::with('subject_user','grade_level_user')->where('file_type',$order)->orderBy('created_at', 'desc');
+              
+            } else {
+
+                $learning_materials = LearningMaterial::with('subject_user','grade_level_user')->orderBy('created_at', 'desc');
+            }
 
             if($learning_materials){
 
@@ -85,6 +116,12 @@ class FacultyController extends Controller
                 })
                 ->editColumn('downloads', function ($learning_materials) {
                     return $learning_materials->downloads;
+                })
+                ->editColumn('file_size', function ($learning_materials) {
+                    return convert_filesize($learning_materials->file_size);
+                })
+                ->editColumn('file_type', function ($learning_materials) {
+                    return strToUpper($learning_materials->file_type);
                 })
                 ->editColumn('status', function ($learning_materials) {
                     if($learning_materials->status == 1){
@@ -114,7 +151,7 @@ class FacultyController extends Controller
                     return date('F j, Y g:i a', strtotime($learning_materials->created_at));
                 })
                 ->addIndexColumn()
-                ->rawColumns(['title','subject','grade_level','downloads','status','action','id','date'])
+                ->rawColumns(['title','subject','grade_level','downloads','file_size','file_type','status','action','id','date'])
                 ->make(true);
 
             }else{
@@ -146,7 +183,7 @@ class FacultyController extends Controller
     public function postFacultyUploadLearningMaterial(LearningMaterialRequest $request){
 
         try{
-
+            
             $user = Auth::user();
 
             $learning_material = new LearningMaterial;
@@ -169,6 +206,8 @@ class FacultyController extends Controller
             }
 
             $learning_material->description = addslashes($request->description);
+            $learning_material->file_size = $request->file('doc_file')->getSize();
+            $learning_material->file_type = $request->file('doc_file')->getClientOriginalExtension();
             $learning_material->save();
 
             return response()->json(array("result"=>true,"message"=> "Successfully Uploaded.") ,200);
@@ -760,7 +799,7 @@ class FacultyController extends Controller
                 }
                     
             }catch(\Exception $e){
-                return response()->json(array("result"=>false,"message"=>$e->getMessage()),422);
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
             }
                 
         } else {
