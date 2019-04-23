@@ -35,7 +35,7 @@
       "@context": "http://schema.org"
     }
   </script>
-	<link rel="icon" href="//html.codedthemes.com/flash-able/bootstrap/assets/images/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="{{ URL::asset('assets/backend/images/favicon.png') }}">
 	<link rel="stylesheet" href="{{ URL::asset('assets/backend/fonts/fontawesome/css/fontawesome-all.min.css') }}">
 	<link rel="stylesheet" href="{{ URL::asset('assets/backend/plugins/animation/css/animate.min.css') }}">
 	<link rel="stylesheet" href="{{ URL::asset('assets/backend/css/style.css') }}">

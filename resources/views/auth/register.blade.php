@@ -157,7 +157,7 @@
                             <div class="form-group text-left mt-2">
                                 <div class="checkbox checkbox-primary d-inline">
                                     <input type="checkbox" name="checkbox-fill-2" id="checkbox-fill-2" required>
-                                    <label for="checkbox-fill-2" class="cr">I agree to the <a href="#">Terms of Use </a>and<a href="#"> Privacy Policy</a>.</label>
+                                    <label for="checkbox-fill-2" class="cr">I agree to the <a href="{{ url('/terms-of-use') }}">Terms of Use </a>and<a href="{{ url('/privacy-policy') }}"> Privacy Policy</a>.</label>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary mb-4">Sign up</button>
