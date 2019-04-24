@@ -18,7 +18,9 @@
                             	<i>By <a href="#">{{ $event_detail->user->full_name }}</a></i>
                             </div>
                             <div class="meta">
-                                <span class="date">{{ date('F j, Y g:i a', strtotime($event_detail->created_at)) }}</span>
+                                <span class="date">{{ date('F j, Y g:i a', strtotime($event_detail->created_at)) }}</span><br>
+                                <span class="date"><b>WHEN: {{ date('F j, Y', strtotime($event_detail->event_date)) }} {{ $event_detail->event_time }}</b></span>
+                                <span class="date"><b>WHERE: {{ $event_detail->event_location }}</b></span>
                             </div>
                         </div>
                         <div class="blog-text">

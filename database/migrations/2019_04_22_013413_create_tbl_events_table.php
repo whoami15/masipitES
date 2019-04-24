@@ -20,6 +20,9 @@ class CreateTblEventsTable extends Migration
             $table->text('slug')->nullable();
             $table->string('title', 255)->nullable();
             $table->text('content')->nullable();
+            $table->date('event_date')->nullable();
+            $table->string('event_time')->nullable();
+            $table->string('event_location')->nullable();
             $table->string('photo')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

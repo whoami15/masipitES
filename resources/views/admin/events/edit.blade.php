@@ -34,6 +34,21 @@
                                 <label class="form-label">Title</label>
                                 <input type="text" name="title" ng-model="frm.title" ng-init="frm.title='{{ $events->title }}'" id="title" class="form-control" placeholder="Title" required>
                             </div>
+                            <div class="form-group">
+                                <label class="form-label">When</label>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <input type="date" name="event_date" ng-model="frm.event_date" max="2030-01-01" min="1930-01-01" format="yyyy-mm-dd" ng-init="frm.event_date=event_date" id="event_date" class="form-control" required>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <input type="text" name="event_time" ng-model="frm.event_time" ng-init="frm.event_time='{{ $events->event_time }}'" id="event_time" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Where</label>
+                                <input type="text" name="event_location" ng-model="frm.event_location" ng-init="frm.event_location='{{ $events->event_location }}'" id="event_location" class="form-control" placeholder="Location" required>
+                            </div>
                             <div class="form-group text-center">
                                 <label>Event Photo</label> 
                                 <br>
@@ -65,13 +80,17 @@
 <script>
     (function () {
         var eventEditApp = angular.module('eventEditApp', ['angular.filter']);
-        eventEditApp.controller('eventEditCtrl', function ($scope, $http, $sce) {
+        eventEditApp.controller('eventEditCtrl', function ($scope, $http, $sce, $filter) {
 
             var vm = this;
+
+            $scope.event_date = new Date("{{$events->event_date}}");
 
             var event_id = '{{$events->id}}';
 
             vm.editEvent = function () {
+
+                console.log(date_final = $filter('date')(new Date(vm.event_date), 'M/d/yy h:mm a'));
                
                 $('#update_btn').prop('disabled', true);
                 $('#update_btn').html('Please wait... <i class="fa fa-spinner fa-spin"></i>');
@@ -80,6 +99,9 @@
                 form_data.append('photo', $('#edit_photo')[0].files[0]);
                 form_data.append('_token', '{{csrf_token()}}');
                 form_data.append('title', vm.title);
+                form_data.append('event_date', date_final);
+                form_data.append('event_time', vm.event_time);
+                form_data.append('event_location', vm.event_location);
                 form_data.append('content', vm.content);
 
                 $http({

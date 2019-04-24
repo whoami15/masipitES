@@ -229,12 +229,19 @@ class FacultyController extends Controller
         
         $learning_material = LearningMaterial::where('id', $id)->first();
 
-        return view('faculty.elearning.edit')
-            ->with('user',$user)
-            ->with('subjects',$subjects)
-            ->with('grade_level',$grade_level)
-            ->with('teacher_class',$teacher_class)
-            ->with('learning_material',$learning_material);
+        if($learning_material) {
+
+            return view('faculty.elearning.edit')
+                ->with('user',$user)
+                ->with('subjects',$subjects)
+                ->with('grade_level',$grade_level)
+                ->with('teacher_class',$teacher_class)
+                ->with('learning_material',$learning_material);
+
+        } else {
+
+            return redirect('/faculty/elearning');
+        }
     }
 
     public function postFacultyEditLearningMaterial($id, LearningMaterialEditRequest $request){
@@ -466,8 +473,15 @@ class FacultyController extends Controller
 
         $user = Auth::user();
         $announcement = Announcement::find($id);
+
+        if($announcement){
         
-        return view('faculty.announcements.edit')->with('user',$user)->with('announcement',$announcement);
+            return view('faculty.announcements.edit')->with('user',$user)->with('announcement',$announcement);
+        } else {
+
+            return redirect('/faculty/announcements');
+        }
+
     }
 
     public function postFacultyEditAnnouncements($id, EditAnnouncementRequest $request) {
@@ -703,11 +717,17 @@ class FacultyController extends Controller
         $grade_level = GradeLevel::where('status',1)->get();
         $teacher_class = TeacherClass::find($id);
         
-        return view('faculty.class.edit')
-            ->with('user',$user)
-            ->with('subjects',$subjects)
-            ->with('grade_level',$grade_level)
-            ->with('teacher_class',$teacher_class);
+        if($teacher_class) {
+
+            return view('faculty.class.edit')
+                ->with('user',$user)
+                ->with('subjects',$subjects)
+                ->with('grade_level',$grade_level)
+                ->with('teacher_class',$teacher_class);
+        } else {
+
+            return redirect('/faculty/class');
+        }
     }
 
     public function postFacultyEditClass($id, EditClassRequest $request) {

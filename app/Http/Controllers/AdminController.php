@@ -886,11 +886,17 @@ class AdminController extends Controller
         
         $subjects = Subject::get();
         $getsubject = Subject::find($id);
-        
-        return view('admin.settings.subject.edit')
+
+        if($getsubject){
+
+            return view('admin.settings.subject.edit')
             ->with('user',$user)
             ->with('subjects',$subjects)
             ->with('getsubject',$getsubject);
+        } else {
+
+            return redirect('/admin/settings/subjects');
+        }
     }
 
     public function postAdminEditSubject($id, EditSubjectRequest $request) {
@@ -1094,11 +1100,18 @@ class AdminController extends Controller
         
         $grade_level = GradeLevel::get();
         $getgrade_level = GradeLevel::find($id);
+
+        if($getgrade_level) {
         
-        return view('admin.settings.grade.edit')
-            ->with('user',$user)
-            ->with('grade_level',$grade_level)
-            ->with('getgrade_level',$getgrade_level);
+            return view('admin.settings.grade.edit')
+                ->with('user',$user)
+                ->with('grade_level',$grade_level)
+                ->with('getgrade_level',$getgrade_level);
+
+        } else {
+
+            return redirect('/admin/settings/grade-level');
+        }
     }
 
     public function postAdminEditGradeLevel($id, EditGradeLevelRequest $request) {
@@ -1302,11 +1315,18 @@ class AdminController extends Controller
         
         $department = Department::get();
         $getdepartment = Department::find($id);
-        
-        return view('admin.settings.department.edit')
+
+        if($getdepartment) {
+
+            return view('admin.settings.department.edit')
             ->with('user',$user)
             ->with('department',$department)
             ->with('getdepartment',$getdepartment);
+        } else {
+
+            return redirect('/admin/settings/department');
+        }
+        
     }
 
     public function postAdminEditDepartment($id, EditDepartmentRequest $request) {
@@ -1510,11 +1530,17 @@ class AdminController extends Controller
         
         $position = Position::get();
         $getposition = Position::find($id);
+
+        if($getposition){
         
-        return view('admin.settings.position.edit')
-            ->with('user',$user)
-            ->with('position',$position)
-            ->with('getposition',$getposition);
+            return view('admin.settings.position.edit')
+                ->with('user',$user)
+                ->with('position',$position)
+                ->with('getposition',$getposition);
+        } else {
+
+            return redirect('/admin/settings/position');
+        }
     }
 
     public function postAdminEditPosition($id, EditPositionRequest $request) {
@@ -1712,8 +1738,14 @@ class AdminController extends Controller
 
         $user = Auth::user();
         $news = News::find($id);
+
+        if($news){
         
-        return view('admin.news.edit')->with('user',$user)->with('news',$news);
+            return view('admin.news.edit')->with('user',$user)->with('news',$news);
+        } else {
+
+            return redirect('/admin/news');
+        }
     }
 
     public function postAdminEditNews($id, EditNewsRequest $request) {
@@ -1842,13 +1874,16 @@ class AdminController extends Controller
         if ($request->wantsJson()) {
 
             try{
-
+                
                 $user = Auth::user();
 
                 $events = new Events();
                 $events->user_id = $user->id;
                 $events->title = $request->title;
                 $events->content = addslashes($request->content);
+                $events->event_date = Carbon::parse($request->event_date)->format('Y-m-d');
+                $events->event_time = Carbon::parse($request->event_time)->format('H:i A');
+                $events->event_location = $request->event_location;
 
                 if($request->file('photo')) {
 
@@ -1864,7 +1899,7 @@ class AdminController extends Controller
                 return response()->json(array("result"=>true,"message"=> "Event successfully created.") ,200);
 
             }catch(\Exception $e){
-                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+                return response()->json(array("result"=>false,"message"=>$e->getMessage()),422);
             }
 
         } else {
@@ -1877,8 +1912,14 @@ class AdminController extends Controller
 
         $user = Auth::user();
         $events = Events::find($id);
+
+        if($events){
         
-        return view('admin.events.edit')->with('user',$user)->with('events',$events);
+            return view('admin.events.edit')->with('user',$user)->with('events',$events);
+        } else {
+
+            return redirect('/admin/events');
+        }
     }
 
     public function postAdminEditEvents($id, EditEventsRequest $request) {
@@ -1895,6 +1936,9 @@ class AdminController extends Controller
 
                     $event->title = $request->title;
                     $event->content = addslashes($request->content);
+                    $event->event_date = Carbon::parse($request->event_date)->format('Y-m-d');
+                    $event->event_time = $request->event_time;
+                    $event->event_location = $request->event_location;
 
                     if($request->file('photo')) {
 

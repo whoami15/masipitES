@@ -25,6 +25,9 @@ class EditEventsRequest extends FormRequest
     {
         return [
             'title' => 'required|min:2',
+            'event_date' => 'required',
+            'event_time' => 'required',
+            'event_location' => 'required',
             'content' => 'required|min:2',
         ];
     }
