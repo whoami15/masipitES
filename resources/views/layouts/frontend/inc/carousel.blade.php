@@ -12,12 +12,12 @@
         	<img src="{{ URL::asset('assets/frontend/images/slider/slider-large2.jpg') }}" alt="Slider Image">
             <div class="blog-post">
                 <div class="blog-outer">
-                    <h3 class="blog-title"><a href="#">Education is the key to unlock the golden door of freedom.</a></h3>
+                    <h3 class="blog-title"><a href="#">Future Of Education Technology</a></h3>
                 </div>
             </div>
         </div>
         <div class="item">
-        	<img src="{{ URL::asset('assets/frontend/images/slider/slider-large3.jpg') }}" alt="Slider Image">
+        	<img src="{{ URL::asset('assets/frontend/images/slider/slider-large3.png') }}" alt="Slider Image">
             <div class="blog-post">
                 <div class="blog-outer">
                    	<h3 class="blog-title"><a href="#">Education is the key to unlock the golden door of freedom.</a></h3>                    
