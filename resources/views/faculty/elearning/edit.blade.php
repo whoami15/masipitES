@@ -36,7 +36,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Choose file (if you want to change file)</label><br>
-                                <input type="file" name="doc_file" id="doc_file" ng-init="frm.doc_file='{{ $learning_material->filename }}'"
+                                <input type="file" name="doc_file" id="doc_file" 
                                 accept=".csv, text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/msword, application/pdf,	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation">
                             </div>
                             <div class="form-group">
