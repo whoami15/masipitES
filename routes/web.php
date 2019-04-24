@@ -137,6 +137,8 @@ Route::middleware(['GrahamCampbell\Throttle\Http\Middleware\ThrottleMiddleware:1
     Route::get('/faculty/elearning/upload', array('as' => 'get-faculty-learning-material','uses' => 'FacultyController@getFacultyUploadLearningMaterial'));
     Route::post('/faculty/elearning/upload', array('as' => 'post-faculty-learning-material','uses' => 'FacultyController@postFacultyUploadLearningMaterial'));
     Route::get('/faculty/file/{uuid}/download', array('as' => 'get-faculty-download-material','uses' => 'FacultyController@downloadLearningMaterial'));
+    Route::get('/faculty/elearning/edit/{id}', array('as' => 'get-faculty-learning-material-edit','uses' => 'FacultyController@getFacultyEditLearningMaterial'));
+    Route::post('/faculty/elearning/{id}/edit', array('as' => 'post-faculty-learning-material-edit','uses' => 'FacultyController@postFacultyEditLearningMaterial'));
     Route::get('/faculty/file/{uuid}/delete', array('as' => 'get-faculty-delete-material','uses' => 'FacultyController@deleteLearningMaterial'));
     Route::get('/faculty/file/{uuid}/retrieve', array('as' => 'get-faculty-retrieve-material','uses' => 'FacultyController@retrieveLearningMaterial'));
 

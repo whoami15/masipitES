@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Faculty\LearningMaterialRequest;
+use App\Http\Requests\Faculty\LearningMaterialEditRequest;
 use App\Http\Requests\Faculty\AddClassRequest;
 use App\Http\Requests\Faculty\AnnouncementRequest;
 use App\Http\Requests\Faculty\EditClassRequest;
@@ -134,6 +135,7 @@ class FacultyController extends Controller
                     if($learning_materials->user_id == Auth::user()->id){
                         if($learning_materials->status == 1){
                             return '<a href="/faculty/file/'.$learning_materials->uuid.'/download">Download</a> |
+                            <a href="/faculty/elearning/edit/'.$learning_materials->id.'">Edit</a> |
                             <a href="/faculty/file/'.$learning_materials->uuid.'/delete">Delete</a>';
                         }else{
                             return '<a href="/faculty/file/'.$learning_materials->uuid.'/retrieve">Retrieve</a>';
@@ -214,6 +216,63 @@ class FacultyController extends Controller
 
         }catch(\Exception $e){
             return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+        }
+    }
+
+    public function getFacultyEditLearningMaterial($id){
+
+        $user = Auth::user();
+
+        $subjects = TeacherClass::with('subject_user')->select('subject')->where('user_id',$user->id)->where('status',1)->distinct()->get();
+        $grade_level = TeacherClass::with('grade_level_user')->select('grade_level')->where('user_id',$user->id)->where('status',1)->distinct()->get();
+        $teacher_class = TeacherClass::where('user_id', $user->id)->where('status',1)->count();
+        
+        $learning_material = LearningMaterial::where('id', $id)->first();
+
+        return view('faculty.elearning.edit')
+            ->with('user',$user)
+            ->with('subjects',$subjects)
+            ->with('grade_level',$grade_level)
+            ->with('teacher_class',$teacher_class)
+            ->with('learning_material',$learning_material);
+    }
+
+    public function postFacultyEditLearningMaterial($id, LearningMaterialEditRequest $request){
+
+        try{
+            
+            $user = Auth::user();
+            $learning_material = LearningMaterial::where('id', $id)->where('user_id',$user->id)->first();
+
+            if($learning_material){
+
+                $learning_material->title = $request->title;
+                $learning_material->subject = $request->subject;
+                $learning_material->grade_level = $request->grade_level;
+
+                if($request->file('doc_file')) {
+
+                    $doc_file = $request->file('doc_file');
+                    $file_name = $doc_file->getClientOriginalName();
+                    $doc_file->move(public_path('mes_learning_materials'), $file_name);
+
+                    $learning_material->filename = $file_name;
+                    $learning_material->file_size = $request->file('doc_file')->getSize();
+                    $learning_material->file_type = $request->file('doc_file')->getClientOriginalExtension();
+                }
+
+                $learning_material->description = addslashes($request->description);
+                $learning_material->save();
+
+                return response()->json(array("result"=>true,"message"=> "Successfully Updated.") ,200);
+
+            } else {
+
+                return response()->json(array("result"=>false,"message"=>'Not found or learning material does not belong to you.'),422);
+            }
+
+        }catch(\Exception $e){
+            return response()->json(array("result"=>false,"message"=>$e->getMessage()),422);
         }
     }
 
