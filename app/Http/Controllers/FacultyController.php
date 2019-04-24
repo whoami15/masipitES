@@ -252,13 +252,24 @@ class FacultyController extends Controller
 
                 if($request->file('doc_file')) {
 
-                    $doc_file = $request->file('doc_file');
-                    $file_name = $doc_file->getClientOriginalName();
-                    $doc_file->move(public_path('mes_learning_materials'), $file_name);
+                    $file_extension = $request->file('doc_file')->getClientOriginalExtension();
 
-                    $learning_material->filename = $file_name;
-                    $learning_material->file_size = $request->file('doc_file')->getSize();
-                    $learning_material->file_type = $request->file('doc_file')->getClientOriginalExtension();
+                    $extensions_list = array('doc','docx','xls','xlsx','ppt','pptx','pdf');
+
+                    if(in_array($file_extension, $extensions_list)){
+
+                        $doc_file = $request->file('doc_file');
+                        $file_name = $doc_file->getClientOriginalName();
+                        $doc_file->move(public_path('mes_learning_materials'), $file_name);
+
+                        $learning_material->filename = $file_name;
+                        $learning_material->file_size = $request->file('doc_file')->getSize();
+                        $learning_material->file_type = $request->file('doc_file')->getClientOriginalExtension();
+
+                    } else {
+
+                        return response()->json(array("result"=>false,"message"=>'Invalid or not supported file.'),422);
+                    }
                 }
 
                 $learning_material->description = addslashes($request->description);
@@ -272,7 +283,7 @@ class FacultyController extends Controller
             }
 
         }catch(\Exception $e){
-            return response()->json(array("result"=>false,"message"=>$e->getMessage()),422);
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
         }
     }
 
