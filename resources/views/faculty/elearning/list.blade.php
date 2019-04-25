@@ -50,7 +50,8 @@
                             <select class="form-control form-control" name="grade_level" id="grade_level" ng-model="filetype" ng-change="frm.orderby()" >
                                 <option selected="selected">Select File Type</option>
                                 <option value="PDF">PDF</option> 
-                                <option value="DOCX">DOCX</option> 
+                                <option value="DOCX">DOCX</option>
+                                <option value="DOC">DOC</option>
                                 <option value="XLSX">XLSX</option>
                                 <option value="XLS">XLS</option>
                                 <option value="CSV">CSV</option>
