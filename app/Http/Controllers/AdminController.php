@@ -392,7 +392,7 @@ class AdminController extends Controller
                     $user->grade_level = $request->grade_level;
                     $user->save();
 
-                    return response()->json(array("result"=>true,"message"=> "Subject successfully updated.") ,200);
+                    return response()->json(array("result"=>true,"message"=> "Student successfully updated.") ,200);
                 }else{
 
                     return redirect('/admin/list');
@@ -429,7 +429,7 @@ class AdminController extends Controller
                     $user->department = $request->department;
                     $user->save();
 
-                    return response()->json(array("result"=>true,"message"=> "Subject successfully updated.") ,200);
+                    return response()->json(array("result"=>true,"message"=> "Faculty successfully updated.") ,200);
                 }else{
 
                     return redirect('/admin/list');
