@@ -1993,7 +1993,7 @@ class AdminController extends Controller
                 ->addColumn('action', function ($news) {
                     if($news->user_id == Auth::user()->id){ 
                         if($news->status == 1){
-                            return '<a href="/admin/news/'.$news->slug.'">View</a> | <a href="/admin/news/edit/'.$news->id.'">Edit</a> |
+                            return '<a href="/news/'.$news->slug.'" target="_blank">View</a> | <a href="/admin/news/edit/'.$news->id.'">Edit</a> |
                             <a href="/admin/news/'.$news->id.'/delete">Delete</a>';
                         }else{
                             return '<a href="/admin/news/'.$news->id.'/retrieve">Retrieve</a>';
@@ -2164,7 +2164,7 @@ class AdminController extends Controller
                 ->addColumn('action', function ($events) {
                     if($events->user_id == Auth::user()->id){
                         if($events->status == 1){
-                            return '<a href="/admin/events/'.$events->slug.'">View</a> | <a href="/admin/events/edit/'.$events->id.'">Edit</a> |
+                            return '<a href="/event/'.$events->slug.'" target="_blank">View</a> | <a href="/admin/events/edit/'.$events->id.'">Edit</a> |
                             <a href="/admin/events/'.$events->id.'/delete">Delete</a>';
                         }else{
                             return '<a href="/admin/events/'.$events->id.'/retrieve">Retrieve</a>';
