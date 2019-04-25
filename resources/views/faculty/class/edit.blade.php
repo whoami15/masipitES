@@ -64,15 +64,11 @@
                                 <label class="form-label">School Year</label>
                                 <select name="school_year" ng-model="frm.school_year" ng-init="frm.school_year='{{ $teacher_class->school_year }}'" id="school_year" class="form-control" required>
                                     <option selected="">Select School Year</option>
-                                    <option value="2018-2019">2018-2019</option>
-                                    <option value="2019-2020">2019-2020</option>
-                                    <option value="2021-2022">2021-2022</option>
-                                    <option value="2022-2023">2022-2023</option>
-                                    <option value="2023-2024">2023-2024</option>
-                                    <option value="2024-2025">2024-2025</option>
-                                    <option value="2025-2026">2025-2026</option>
-                                    <option value="2026-2027">2026-2027</option>
-                                    <option value="2027-2028">2027-2028</option>
+                                    @if($school_year)
+                                    @foreach($school_year as $year)
+                                    <option value="{{ $year->school_year }}">{{ $year->school_year }}</option>
+                                    @endforeach
+                                    @endif
                                 </select>
                             </div>
                             <div class="form-group">

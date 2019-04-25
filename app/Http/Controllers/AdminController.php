@@ -12,6 +12,8 @@ use App\Http\Requests\Admin\AddDepartmentRequest;
 use App\Http\Requests\Admin\EditDepartmentRequest;
 use App\Http\Requests\Admin\AddPositionRequest;
 use App\Http\Requests\Admin\EditPositionRequest;
+use App\Http\Requests\Admin\AddSchoolYearRequest;
+use App\Http\Requests\Admin\EditSchoolYearRequest;
 use App\Http\Requests\Admin\AddNewsRequest;
 use App\Http\Requests\Admin\AddEventsRequest;
 use App\Http\Requests\Admin\EditNewsRequest;
@@ -29,6 +31,7 @@ use App\Subject;
 use App\GradeLevel;
 use App\Department;
 use App\Position;
+use App\SchoolYear;
 use App\News;
 use App\Events;
 use App\PublicMessage;
@@ -1736,6 +1739,214 @@ class AdminController extends Controller
             }else{
 
                 return redirect('/admin/settings/position');
+            }
+
+        }catch(\Exception $e){
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+        }
+    }
+
+    public function getAdminSchoolYear() {
+
+        $user = Auth::user();
+        
+        return view('admin.settings.school-year.list')->with('user',$user);
+    }
+
+    public function getAdminSchoolYearData(Request $request) {
+
+        if ($request->wantsJson()) {
+
+            $user = Auth::user();
+            $school_year = SchoolYear::orderBy('created_at', 'desc');
+
+            if($school_year){
+
+                return Datatables::of($school_year)
+                ->editColumn('school_year', function ($school_year) {
+                    return $school_year->school_year;
+                })
+                ->editColumn('status', function ($school_year) {
+                    if($school_year->status == 1){
+                        return '<mark>Active</mark>';
+                    }else{
+                        return '<mark>Inactive</mark>';
+                    }
+                })
+                ->addColumn('action', function ($school_year) {
+                    if($school_year->status == 1){
+                        return '<a href="/admin/settings/school-year/edit/'.$school_year->id.'">Edit</a> |
+                        <a href="/admin/settings/school-year/'.$school_year->id.'/delete">Delete</a>';
+                    }else{
+                        return '<a href="/admin/settings/school-year/'.$school_year->id.'/retrieve">Retrieve</a>';
+                    }
+                })
+                ->addColumn('id', function ($school_year) {
+
+                    return $school_year->id;
+                })
+                ->addColumn('date', function ($school_year) {
+                    return date('F j, Y g:i a', strtotime($school_year->created_at));
+                })
+                ->addIndexColumn()
+                ->rawColumns(['school_year','status','action','id','date'])
+                ->make(true);
+
+            }else{
+
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+            }
+        } else {
+            
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
+
+    }
+
+    public function getAdminAddSchoolYear() {
+
+        $user = Auth::user();
+
+        $school_year = SchoolYear::get();
+
+        return view('admin.settings.school-year.create')
+            ->with('user',$user)
+            ->with('school_year',$school_year);
+    }
+
+    public function postAdminAddSchoolYear(AddSchoolYearRequest $request) {
+
+        if ($request->wantsJson()) {
+
+            try{
+
+                $user = Auth::user();
+
+                $check = SchoolYear::select('school_year')->first();
+
+                if($check){
+
+                    if(strToLower($check->school_year) == strToLower($request->school_year)){
+
+                        return response()->json(array("result"=>false,"message"=> "School year already exists."),422);
+
+                    }else{
+
+                        $school_year = new SchoolYear();
+                        $school_year->school_year = $request->school_year;
+                        $school_year->save();
+
+                        return response()->json(array("result"=>true,"message"=> "School year successfully added.") ,200);
+                    }
+
+                } else {
+
+                    $school_year = new SchoolYear();
+                    $school_year->school_year = $request->school_year;
+                    $school_year->save();
+
+                    return response()->json(array("result"=>true,"message"=> "School year successfully added.") ,200);
+                }
+            }catch(\Exception $e){
+
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+            }
+
+        } else {
+
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
+        
+    }
+
+    public function getAdminEditSchoolYear($id) {
+
+        $user = Auth::user();
+        
+        $school_year = SchoolYear::get();
+        $getschoolyear = SchoolYear::find($id);
+
+        if($getschoolyear){
+        
+            return view('admin.settings.school-year.edit')
+                ->with('user',$user)
+                ->with('school_year',$school_year)
+                ->with('getschoolyear',$getschoolyear);
+        } else {
+
+            return redirect('/admin/settings/school-year');
+        }
+    }
+
+    public function postAdminEditSchoolYear($id, EditSchoolYearRequest $request) {
+
+        if ($request->wantsJson()) {
+
+            try{
+
+                $user = Auth::user();
+
+                $check = SchoolYear::select('school_year')->first();
+
+                if(strToLower($check->school_year) == strToLower($request->school_year)){
+
+                    return response()->json(array("result"=>false,"message"=> "School year already exists."),422);
+
+                }else{
+
+                    $school_year = SchoolYear::where('id', $id)->first();
+                    $school_year->school_year = $request->school_year;
+                    $school_year->save();
+
+                    return response()->json(array("result"=>true,"message"=> "School year successfully updated.") ,200);
+
+                }
+
+            }catch(\Exception $e){
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+            }
+
+        } else {
+
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
+    }
+
+    public function deleteSchoolYear($id){
+
+        try{
+
+            $school_year = SchoolYear::where('id', $id)->first();
+            if($school_year){
+
+                $school_year->status = 0;
+                $school_year->save();
+
+                return redirect('/admin/settings/school-year');
+            }else{
+
+                return redirect('/admin/settings/school-year');
+            }
+
+        }catch(\Exception $e){
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+        }
+    }
+
+    public function retrieveSchoolYear($id){
+
+        try{
+
+            $school_year = SchoolYear::where('id', $id)->first();
+            if($school_year){
+
+                $school_year->status = 1;
+                $school_year->save();
+
+                return redirect('/admin/settings/school-year');
+            }else{
+
+                return redirect('/admin/settings/school-year');
             }
 
         }catch(\Exception $e){

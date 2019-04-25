@@ -103,6 +103,15 @@ Route::middleware(['GrahamCampbell\Throttle\Http\Middleware\ThrottleMiddleware:1
     Route::get('/admin/settings/position/{id}/delete', array('as' => 'get-admin-settings-position-delete','uses' => 'AdminController@deletePosition'));
     Route::get('/admin/settings/position/{id}/retrieve', array('as' => 'get-admin-settings-position-retrieve','uses' => 'AdminController@retrievePosition'));
 
+    Route::get('/admin/settings/school-year', array('as' => 'get-admin-settings-school-year','uses' => 'AdminController@getAdminSchoolYear'));
+    Route::get('/admin/settings/school-year-data', array('as' => 'get-admin-settings-school-year-data','uses' => 'AdminController@getAdminSchoolYearData'));
+    Route::get('/admin/settings/school-year/add', array('as' => 'get-admin-settings-school-year-add','uses' => 'AdminController@getAdminAddSchoolYear'));
+    Route::post('/admin/settings/school-year/add', array('as' => 'post-admin-settings-school-year-add','uses' => 'AdminController@postAdminAddSchoolYear'));
+    Route::get('/admin/settings/school-year/edit/{id}', array('as' => 'get-admin-settings-school-year-edit','uses' => 'AdminController@getAdminEditSchoolYear'));
+    Route::post('/admin/settings/school-year/{id}/edit', array('as' => 'post-admin-settings-school-year-edit','uses' => 'AdminController@postAdminEditSchoolYear'));
+    Route::get('/admin/settings/school-year/{id}/delete', array('as' => 'get-admin-settings-school-year-delete','uses' => 'AdminController@deleteSchoolYear'));
+    Route::get('/admin/settings/school-year/{id}/retrieve', array('as' => 'get-admin-settings-school-year-retrieve','uses' => 'AdminController@retrieveSchoolYear'));
+
     Route::get('/admin/news', array('as' => 'get-admin-news','uses' => 'AdminController@getAdminNews'));
     Route::get('/admin/news-data', array('as' => 'get-admin-news-data','uses' => 'AdminController@getAdminNewsData'));
     Route::get('/admin/news/create', array('as' => 'get-admin-news-create','uses' => 'AdminController@getAdminCreateNews'));

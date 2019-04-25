@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use App\User;
 use App\Subject;
 use App\GradeLevel;
+use App\SchoolYear;
 use App\LearningMaterial;
 use App\Announcement;
 use App\TeacherClass;
@@ -645,11 +646,13 @@ class FacultyController extends Controller
 
         $subjects = Subject::where('status',1)->get();
         $grade_level = GradeLevel::where('status',1)->get();
+        $school_year = SchoolYear::where('status', 1)->get();
 
         return view('faculty.class.create')
             ->with('user',$user)
             ->with('subjects',$subjects)
-            ->with('grade_level',$grade_level);
+            ->with('grade_level',$grade_level)
+            ->with('school_year',$school_year);
     }
 
     public function postFacultyAddClass(AddClassRequest $request) {
@@ -715,6 +718,7 @@ class FacultyController extends Controller
         
         $subjects = Subject::where('status',1)->get();
         $grade_level = GradeLevel::where('status',1)->get();
+        $school_year = SchoolYear::where('status', 1)->get();
         $teacher_class = TeacherClass::find($id);
         
         if($teacher_class) {
@@ -723,6 +727,7 @@ class FacultyController extends Controller
                 ->with('user',$user)
                 ->with('subjects',$subjects)
                 ->with('grade_level',$grade_level)
+                ->with('school_year',$school_year)
                 ->with('teacher_class',$teacher_class);
         } else {
 

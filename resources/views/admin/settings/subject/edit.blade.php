@@ -39,7 +39,7 @@
                                 <textarea name="description" ng-model="frm.description" ng-init="frm.description='{{ $getsubject->description }}'" class="form-control" rows="3" required></textarea>
                             </div>
                             <div class="form-group">
-                                <button type="submit" ng-disabled="settingsFrm.$invalid" id="save_btn" class="btn btn-primary">Save</button>
+                                <button type="submit" ng-disabled="settingsFrm.$invalid" id="save_btn" class="btn btn-primary">Update</button>
                             </div>
                         </div>
                     </form>
@@ -75,7 +75,7 @@
                    })
                }).success(function (data) {
                    $('#save_btn').prop('disabled', false);
-                   $('#save_btn').html('Save');
+                   $('#save_btn').html('Update');
                    if (data.result == 1){
 
                         new PNotify({
@@ -96,7 +96,7 @@
                }).error(function (data) {
 
                    $('#save_btn').prop('disabled', false);
-                   $('#save_btn').html('Save');
+                   $('#save_btn').html('Update');
 
                    if(data.result == 0){
 

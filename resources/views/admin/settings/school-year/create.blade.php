@@ -1,8 +1,8 @@
 @extends('layouts.backend.master')
-@section('title', 'Edit Department')
+@section('title', 'Add School Year')
 
 @section('content')
-<div ng-app="editDepartmentApp" ng-controller="editDepartmentCtrl as frm">
+<div ng-app="addSchoolYearApp" ng-controller="addSchoolYearCtrl as frm">
     <!-- [ breadcrumb ] start -->
     <div class="page-header">
         <div class="page-block">
@@ -13,7 +13,7 @@
                     </div>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#"><i class="feather icon-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="#">Department</a></li>
+                        <li class="breadcrumb-item"><a href="#">School Year</a></li>
                     </ul>
                 </div>
             </div>
@@ -25,21 +25,17 @@
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>Edit Department</h5>
+                    <h5>Add School Year</h5>
                 </div>
                 <div class="card-body">
-                    <form class="ng-pristine ng-valid-email ng-invalid ng-invalid-required" name="departmentFrm" ng-submit="frm.update(departmentFrm.$valid)" autocomplete="off">
+                    <form class="ng-pristine ng-valid-email ng-invalid ng-invalid-required" name="schoolYearFrm" ng-submit="frm.create(schoolYearFrm.$valid)" autocomplete="off">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="form-label">Department</label>
-                                <input type="text" name="department" ng-model="frm.department" ng-init="frm.department='{{ $getdepartment->department }}'" id="department" class="form-control" placeholder="Department" required>
+                                <label class="form-label">School Year</label>
+                                <input type="text" name="school_year" ng-model="frm.school_year" id="school_year" class="form-control" placeholder="0000-0000" required>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Description</label>
-                                <textarea name="description" ng-model="frm.description" ng-init="frm.description='{{ $getdepartment->description }}'" class="form-control" rows="3" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" ng-disabled="departmentFrm.$invalid" id="save_btn" class="btn btn-primary">Update</button>
+                                <button type="submit" ng-disabled="schoolYearFrm.$invalid" id="save_btn" class="btn btn-primary">Save</button>
                             </div>
                         </div>
                     </form>
@@ -54,28 +50,25 @@
 @section('footer_scripts')
 <script>
     (function () {
-        var editDepartmentApp = angular.module('editDepartmentApp', ['angular.filter']);
-        editDepartmentApp.controller('editDepartmentCtrl', function ($scope, $http, $sce) {
+        var addSchoolYearApp = angular.module('addSchoolYearApp', ['angular.filter']);
+        addSchoolYearApp.controller('addSchoolYearCtrl', function ($scope, $http, $sce) {
 
             var vm = this;
 
-            var department_id = '{{$getdepartment->id}}';
-
-            vm.update = function () {
+            vm.create = function () {
                
                $('#save_btn').prop('disabled', true);
                $('#save_btn').html('Please wait... <i class="fa fa-spinner fa-spin"></i>');
 
                $http({
                     method: 'POST',
-                    url: '/admin/settings/department/'+department_id+'/edit',
+                    url: '/admin/settings/school-year/add',
                     data: JSON.stringify({
-                        department: vm.department,
-                        description: vm.description
+                        school_year: vm.school_year
                     })
                }).success(function (data) {
                    $('#save_btn').prop('disabled', false);
-                   $('#save_btn').html('Update');
+                   $('#save_btn').html('Save');
                    if (data.result == 1){
 
                         new PNotify({
@@ -84,7 +77,7 @@
                             type: 'success'
                         });
 
-                       setTimeout(window.location.href = '/admin/settings/department', 10000);
+                       setTimeout(window.location.href = '/admin/settings/school-year/add', 10000);
 
                    } else {
                         new PNotify({
@@ -96,7 +89,7 @@
                }).error(function (data) {
 
                    $('#save_btn').prop('disabled', false);
-                   $('#save_btn').html('Update');
+                   $('#save_btn').html('Save');
 
                    if(data.result == 0){
 
