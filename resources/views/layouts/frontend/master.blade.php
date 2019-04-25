@@ -20,10 +20,13 @@
     <meta name="author" content="MinSCAT Students">
     <meta property="og:locale" content="en_US">
     <meta name="description" content="The Official Website of Masipit Elementary School">
+    <meta property="og:image" content="//i.ibb.co/71B2L1p/slider-large1.jpg">
     <meta property="og:description" content="The Official Website of Masipit Elementary School">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="canonical" href="/">
-    <meta property="og:url" content="/">
+    <meta property="og:url" content="https://masipites.com">
     <meta property="og:site_name" content="Masipit Elementary School Official Website">
+    <meta name="twitter:image:alt" content="Cover">
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="{{ URL::asset('assets/frontend/favicon/favicon.png') }}">
     <link rel="apple-touch-icon-precomposed" href="{{ URL::asset('assets/frontend/favicon/apple-touch-icon.png') }}">

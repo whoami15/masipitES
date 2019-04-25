@@ -18,9 +18,11 @@
   <meta property="og:locale" content="en_US">
   <meta name="description" content="Masipit Elementary School Official Website">
   <meta property="og:description" content="Masipit Elementary School Official Website">
+  <meta property="og:image" content="//i.ibb.co/71B2L1p/slider-large1.jpg">
   <link rel="canonical" href="/">
-  <meta property="og:url" content="/">
+  <meta property="og:url" content="https://masipites.com">
   <meta property="og:site_name" content="Masipit Elementary School Official Website">
+  <meta name="twitter:image:alt" content="Cover">
   <script type="application/ld+json">
     {
       "name": "Masipit Elementary School",
