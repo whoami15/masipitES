@@ -28,9 +28,8 @@
                             <div class="blog-bottom">
                                 <div class="social-icons pull-left">
                                     <ul>
-                                        <li><a href="#" data-toggle="tooltip" title="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>                
-                                        <li><a href="#" data-toggle="tooltip" title="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" title="" data-original-title="Google Plus"><i class="fa fa-google-plus"></i></a></li>
+                                        <li><a href="https://twitter.com/intent/tweet?url={{ url('/event/'.$event_info->slug) }}&text={{ $event_info->title }}" target="_blank" data-toggle="tooltip" title="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>                
+                                        <li><a href="https://www.facebook.com/sharer.php?u={{ url('/event/'.$event_info->slug) }}" target="_blank" data-toggle="tooltip" title="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
                                     </ul>
                                 </div>
                                 <div class="pull-right"><a href="{{ url('event/'.$event_info->slug) }}" class="more-links">Read More</a></div>

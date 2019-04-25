@@ -30,8 +30,8 @@
                         	<h4>Share This</h4>
                             <div class="social-icons">
                                 <ul>
-                                    <li><a href="#" data-toggle="tooltip" title="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>                
-                                    <li><a href="#" data-toggle="tooltip" title="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="https://twitter.com/intent/tweet?url={{ url('/event/'.$event_detail->slug) }}&text={{ $event_detail->title }}" target="_blank" data-toggle="tooltip" title="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>                
+                                    <li><a href="https://www.facebook.com/sharer.php?u={{ url('/event/'.$event_detail->slug) }}" target="_blank" data-toggle="tooltip" title="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
                                 </ul>
                             </div>
                             <div class="clearfix"></div>
