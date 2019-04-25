@@ -160,7 +160,7 @@
                         middle_name: vm.middle_name,
                         last_name: vm.last_name,
                         gender: vm.gender,
-                        birth_date: vm.birth_date,
+                        birth_date: date_final,
                         position: vm.position,
                         department: vm.department
                     })

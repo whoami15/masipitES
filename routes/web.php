@@ -180,7 +180,7 @@ Route::middleware(['GrahamCampbell\Throttle\Http\Middleware\ThrottleMiddleware:1
     Route::get('/faculty/messages/private', array('as' => 'get-faculty-messages-private','uses' => 'FacultyController@getFacultyPrivateMessages'));
 
     Route::get('/faculty/profile', array('as' => 'get-faculty-profile','uses' => 'FacultyController@getFacultyProfile'));
-    Route::post('/faculty/profile', array('as' => 'post-faculty-profile','uses' => 'FacultyController@postgetFacultyProfile'));
+    Route::post('/faculty/profile', array('as' => 'post-faculty-profile','uses' => 'FacultyController@postFacultyProfile'));
     Route::post('/faculty/profile/password', array('as' => 'post-faculty-profile-password','uses' => 'FacultyController@postFacultyProfilePassword'));
 
 
@@ -190,7 +190,7 @@ Route::middleware(['GrahamCampbell\Throttle\Http\Middleware\ThrottleMiddleware:1
     Route::get('/student/file/{uuid}/download', array('as' => 'get-student-download-material','uses' => 'StudentController@downloadLearningMaterial'));
 
     Route::get('/student/profile', array('as' => 'get-student-profile','uses' => 'StudentController@getStudentProfile'));
-    Route::post('/student/profile', array('as' => 'post-student-profile','uses' => 'StudentController@postgetStudentProfile'));
+    Route::post('/student/profile', array('as' => 'post-student-profile','uses' => 'StudentController@postStudentProfile'));
     Route::post('/student/profile/password', array('as' => 'post-student-profile-password','uses' => 'StudentController@postStudentProfilePassword'));
     
 });

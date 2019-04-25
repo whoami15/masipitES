@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Student\UpdateProfileRequest;
 use App\Http\Requests\Student\UpdateProfilePasswordRequest;
 use Yajra\Datatables\Datatables;
 use Carbon\Carbon;
 use App\User;
 use App\LearningMaterial;
+use App\News;
+use App\Events;
 use Hash;
 use DB;
 
@@ -27,12 +30,20 @@ class StudentController extends Controller
         $learning_materials = LearningMaterial::with('user','subject_user')->where('grade_level', $user->grade_level)->orderBy('created_at', 'desc')->get();
         $total_learning_materials = LearningMaterial::where('grade_level', $user->grade_level)->where('status', 1)->count();
         $total_learning_materials_today = LearningMaterial::where('grade_level', $user->grade_level)->where('status', 1)->whereDate('created_at', Carbon::today())->count();
+        $total_news = News::count();
+        $total_news_today = News::whereDate('created_at', Carbon::today())->count();
+        $total_events = Events::count();
+        $total_events_today = Events::whereDate('created_at', Carbon::today())->count();
         
         return view('student.index')
             ->with('user',$user)
             ->with('learning_materials', $learning_materials)
             ->with('total_learning_materials', $total_learning_materials)
-            ->with('total_learning_materials_today', $total_learning_materials_today);       
+            ->with('total_learning_materials_today', $total_learning_materials_today)
+            ->with('total_news', $total_news)
+            ->with('total_news_today', $total_news_today)
+            ->with('total_events', $total_events)
+            ->with('total_events_today', $total_events_today);       
     }
 
     public function getStudentLearningMaterial(){
@@ -125,6 +136,29 @@ class StudentController extends Controller
         $user = User::with('grade_level_user')->find($auth_user->id);
 
         return view('student.settings.profile.edit')->with('user',$user);
+    }
+
+    public function postStudentProfile(UpdateProfileRequest $request){
+        
+        if ($request->wantsJson()) {
+
+            try{
+
+                $user = Auth::user();
+
+                $user->gender = $request->gender;
+                $user->birth_date = Carbon::parse($request->birth_date)->format('Y-m-d');
+                $user->save();
+
+                return response()->json(array("result"=>true,"message"=> "Profile successfully updated.") ,200);
+            }catch(\Exception $e){
+
+                return response()->json(array("result"=>false,"message"=>$e->getMessage()),422);
+            }
+        } else {
+
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
     }
 
     public function postStudentProfilePassword(UpdateProfilePasswordRequest $request){

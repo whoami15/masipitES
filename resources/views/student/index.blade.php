@@ -23,7 +23,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 col-sm-4">
                 <div class="card statustic-card">
                     <div class="card-header borderless pb-0">
                         <h5>Learning Materials</h5>
@@ -34,6 +34,34 @@
                     </div>
                     <div class="card-footer bg-c-blue border-0">
                         <h6 class="text-white m-b-0">Today: {{ $total_learning_materials_today }}</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="card statustic-card">
+                    <div class="card-header borderless pb-0">
+                        <h5>News</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <span class="d-block text-c-green f-36">{{ $total_news }}</span>
+                        <p class="m-b-0">Total</p>
+                    </div>
+                    <div class="card-footer bg-c-green border-0">
+                        <h6 class="text-white m-b-0">Today: {{ $total_news_today }}</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="card statustic-card">
+                    <div class="card-header borderless pb-0">
+                        <h5>Events</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <span class="d-block text-c-purple f-36">{{ $total_events }}</span>
+                        <p class="m-b-0">Total</p>
+                    </div>
+                    <div class="card-footer bg-c-purple border-0">
+                        <h6 class="text-white m-b-0">Today: {{ $total_events_today }}</h6>
                     </div>
                 </div>
             </div>

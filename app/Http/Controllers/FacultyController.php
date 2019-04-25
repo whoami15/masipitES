@@ -10,6 +10,7 @@ use App\Http\Requests\Faculty\AddClassRequest;
 use App\Http\Requests\Faculty\AnnouncementRequest;
 use App\Http\Requests\Faculty\EditClassRequest;
 use App\Http\Requests\Faculty\EditAnnouncementRequest;
+use App\Http\Requests\Faculty\UpdateProfileRequest;
 use App\Http\Requests\Faculty\UpdateProfilePasswordRequest;
 use Illuminate\Support\Str;
 use Yajra\Datatables\Datatables;
@@ -871,6 +872,29 @@ class FacultyController extends Controller
         $user = Auth::user();
 
         return view('faculty.settings.profile.edit')->with('user',$user);
+    }
+
+    public function postFacultyProfile(UpdateProfileRequest $request){
+
+        if ($request->wantsJson()) {
+
+            try{
+
+                $user = Auth::user();
+
+                $user->gender = $request->gender;
+                $user->birth_date = Carbon::parse($request->birth_date)->format('Y-m-d');
+                $user->save();
+
+                return response()->json(array("result"=>true,"message"=> "Profile successfully updated.") ,200);
+            }catch(\Exception $e){
+
+                return response()->json(array("result"=>false,"message"=>$e->getMessage()),422);
+            }
+        } else {
+
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
     }
 
     public function postFacultyProfilePassword(UpdateProfilePasswordRequest $request){

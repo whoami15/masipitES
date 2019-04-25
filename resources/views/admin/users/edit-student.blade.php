@@ -157,7 +157,7 @@
                         middle_name: vm.middle_name,
                         last_name: vm.last_name,
                         gender: vm.gender,
-                        birth_date: vm.birth_date,
+                        birth_date: date_final,
                         grade_level: vm.grade_level
                     })
                 }).success(function (data) {
