@@ -45,6 +45,10 @@ Route::middleware(['GrahamCampbell\Throttle\Http\Middleware\ThrottleMiddleware:1
 
     Route::get('/admin/list', array('as' => 'get-admin-list-users','uses' => 'AdminController@getAdminListUsers'));
     Route::get('/admin/userlist-data', array('as' => 'get-admin-list-user-data','uses' => 'AdminController@getAdminListUsersData'));
+    Route::get('/admin/user/student/edit/{id}', array('as' => 'get-admin-user-student-edit','uses' => 'AdminController@getAdminStudentEdit'));
+    Route::get('/admin/user/faculty/edit/{id}', array('as' => 'get-admin-user-faculty-edit','uses' => 'AdminController@getAdminFacultyEdit'));
+    Route::post('/admin/user/student/{id}/edit', array('as' => 'post-admin-user-student-edit','uses' => 'AdminController@postAdminStudentEdit'));
+    Route::post('/admin/user/faculty/{id}/edit', array('as' => 'post-admin-user-faculty-edit','uses' => 'AdminController@postAdminFacultyEdit'));
 
     Route::get('/admin/user/grade-level', array('as' => 'get-admin-list-grade-level-users','uses' => 'AdminController@getAdminUsersGradeLevel'));
     Route::get('/admin/user/grade-level-data', array('as' => 'get-admin-list-grade-level-users-data','uses' => 'AdminController@getAdminUsersGradeLevelData'));

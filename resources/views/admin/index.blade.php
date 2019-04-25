@@ -138,7 +138,7 @@
                                             <h6 class="mb-1">Department: <mark>{{ $user->department }}</mark></h6>
                                             @endif
                                         </td>
-                                        <td>{{ date('F j, Y g:i a', strtotime($user->created_at)) }}</td>
+                                        <td>{{ date('F j, Y g:i a', strtotime($user->created_at)) . ' | ' . $user->created_at->diffForHumans()}}</td>
                                         <td>
                                             <small id="processing{{ $user->id }}" style="display:none">Processing... <i class="fa fa-spinner fa-spin"></i></small>
                                             <button ng-click="frm.accept({{ $user->id }})" id="accept_btn{{ $user->id }}" class="btn shadow-1 btn-success btn-sm">approve</button>

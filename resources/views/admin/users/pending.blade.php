@@ -195,6 +195,57 @@
                 });
             };
 
+            vm.decline = function (id) {
+               
+               $('#decline_btn'+id).hide();
+               $('#processing'+id).show();
+
+               var status = 2;
+               $http({
+                   method: 'POST',
+                   url: '/admin/decline/'+id+'/status',
+                   data: JSON.stringify({
+                      status: status
+                   })
+               }).success(function (data) {
+                   $('#decline_btn'+id).show();
+                   $('#processing'+id).hide();
+                   if (data.result==1){
+
+                        new PNotify({
+                            title: 'Success',
+                            text: data.message,
+                            type: 'success'
+                        });
+
+                       setTimeout(window.location.href = '/admin/pending', 5000);
+                   }
+               }).error(function (data) {
+                   $('#decline_btn'+id).show();
+                   $('#processing'+id).hide();
+                 if(data.result == 0){
+
+                       new PNotify({
+                           title: 'Warning',
+                           text: data.message,
+                           type: 'default'
+                       });
+
+                   } else {
+
+                       angular.forEach(data.errors, function(message, key){
+
+                           new PNotify({
+                               title: 'Warning',
+                               text: message,
+                               type: 'default'
+                           });
+
+                     });
+                   }
+               });
+           };
+
             vm.acceptAll = function () {
 
                 var ans = confirm("Are you sure want to accept all pending users?");

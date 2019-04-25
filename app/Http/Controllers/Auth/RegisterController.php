@@ -131,7 +131,8 @@ class RegisterController extends Controller
                 $user->middle_name = $request->middle_name;
                 $user->last_name = $request->last_name;
                 $user->role = $user_role;
-                $user->id_no = $request->id_no;
+                $user->id_no = preg_replace('/\s/', '', $request->id_no);
+                $user->lrn = $this->generateLRN();
                 $user->grade_level = $request->grade_level;
                 $user->save();
 
@@ -190,4 +191,15 @@ class RegisterController extends Controller
         }
 
    }
+
+    public function generateLRN(){
+
+        $generated_lrn = mt_rand(100000000000, 999999999999);
+        $lrn = User::where('lrn', $generated_lrn)->first();
+        if(!$lrn){
+            $lrn = $generated_lrn;
+            return $lrn;
+        }
+
+    }
 }

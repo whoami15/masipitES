@@ -24,10 +24,12 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->tinyInteger('role')->default(1);
             $table->string('id_no')->unique()->nullable();
-            $table->string('grade_level')->nullable();
+            $table->string('lrn')->unique()->nullable();
+            $table->unsignedBigInteger('grade_level')->nullable();
             $table->string('position')->nullable();
             $table->string('department')->nullable();
             $table->enum('gender', ['MALE', 'FEMALE'])->nullable();
+            $table->date('birth_date')->nullable();
             $table->string('address')->nullable();
             $table->text('avatar')->nullable();
             $table->tinyInteger('status')->default(0);
@@ -36,6 +38,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
 
             $table->index(['username', 'email', 'id_no', 'role']);
+            $table->foreign('grade_level')->references('id')->on('tbl_grade_level');
         });
     }
 

@@ -90,8 +90,6 @@
 
             vm.editEvent = function () {
 
-                console.log(date_final = $filter('date')(new Date(vm.event_date), 'M/d/yy h:mm a'));
-               
                 $('#update_btn').prop('disabled', true);
                 $('#update_btn').html('Please wait... <i class="fa fa-spinner fa-spin"></i>');
 

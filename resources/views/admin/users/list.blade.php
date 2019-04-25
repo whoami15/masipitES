@@ -70,6 +70,7 @@
                                         <th>Role</th>
                                         <th>Details</th>
                                         <th>Date Registered</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -152,7 +153,7 @@
                                     render: function (data, type, full, meta) {
                                         return "<div class='text-wrap width-120'>" + data + "</div>";
                                     },
-                                    targets: [1,3]
+                                    targets: [0]
                                 }
                              ],
                             columns: [
@@ -161,7 +162,8 @@
                                 {data: 'username', name: 'username', orderable: true, searchable: true},
                                 {data: 'role', name: 'role', orderable: true, searchable: false},
                                 {data: 'details', name: 'id_no', orderable: true, searchable: true},
-                                {data: 'date', name: 'date'}
+                                {data: 'date', name: 'date'},
+                                {data: 'action', name: 'action', orderable: false, searchable: false}
                             ],
                             order: [[5, 'desc']],
                             "initComplete": function(settings, json) { 

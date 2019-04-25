@@ -17,6 +17,8 @@ use App\Http\Requests\Admin\AddEventsRequest;
 use App\Http\Requests\Admin\EditNewsRequest;
 use App\Http\Requests\Admin\EditEventsRequest;
 use App\Http\Requests\Admin\UpdateProfilePasswordRequest;
+use App\Http\Requests\Admin\EditStudentRequest;
+use App\Http\Requests\Admin\EditFacultyRequest;
 use Yajra\Datatables\Datatables;
 use Carbon\Carbon;
 use App\User;
@@ -183,7 +185,8 @@ class AdminController extends Controller
                 ->addColumn('action', function ($pending_users) {
                     if($pending_users->status == 0){
                         return '<small id="processing'.$pending_users->id.'" style="display:none">Processing... <i class="fa fa-spinner fa-spin"></i></small>
-                        <button onclick="angular.element(this).scope().frm.accept('.$pending_users->id.')" id="accept_btn'.$pending_users->id.'" class="btn shadow-1 btn-danger btn-sm">approve</button>';
+                        <button onclick="angular.element(this).scope().frm.accept('.$pending_users->id.')" id="accept_btn'.$pending_users->id.'" class="btn shadow-1 btn-success btn-sm">approve</button>
+                        <button onclick="angular.element(this).scope().frm.decline('.$pending_users->id.')" id="decline_btn'.$pending_users->id.'" class="btn shadow-1 btn-danger btn-sm">decline</button>';
                     } else {
 
                         return '';
@@ -194,7 +197,7 @@ class AdminController extends Controller
                     return $pending_users->id;
                 })
                 ->addColumn('date', function ($pending_users) {
-                    return date('F j, Y g:i a', strtotime($pending_users->created_at));
+                    return date('F j, Y g:i a', strtotime($pending_users->created_at)) . ' | ' . $pending_users->created_at->diffForHumans();
                 })
                 ->addIndexColumn()
                 ->rawColumns(['name','username','role','details','action','id','date'])
@@ -299,6 +302,13 @@ class AdminController extends Controller
                         return '<strong class="text-info">unavailable</strong>';
                     }
                 })
+                ->addColumn('action', function ($users) {
+                    if($users->role == 1){
+                        return '<a href="/admin/user/student/edit/'.$users->id.'">Edit</a>';
+                    }else{
+                        return '<a href="/admin/user/faculty/edit/'.$users->id.'">Edit</a>';
+                    }
+                })
                 ->addColumn('id', function ($users) {
 
                     return $users->id;
@@ -307,7 +317,7 @@ class AdminController extends Controller
                     return date('F j, Y g:i a', strtotime($users->created_at));
                 })
                 ->addIndexColumn()
-                ->rawColumns(['name','username','role','details','id','date'])
+                ->rawColumns(['name','username','role','details','action','id','date'])
                 ->make(true);
 
             }else{
@@ -320,6 +330,119 @@ class AdminController extends Controller
             return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
         }
 
+    }
+
+    public function getAdminStudentEdit($id){
+
+        $user = Auth::user();
+
+        $student = User::with('grade_level_user')->where('id', $id)->first();
+        $grade_level = GradeLevel::where('status', 1)->get();
+
+        if($student){
+
+            return view('admin.users.edit-student')
+                ->with('user', $user)
+                ->with('student',$student)
+                ->with('grade_level',$grade_level);
+        }else{
+            
+            return redirect('/admin/list');
+        }
+    }
+
+    public function getAdminFacultyEdit($id){
+
+        $user = Auth::user();
+
+        $faculty = User::with('grade_level_user')->where('id', $id)->first();
+        $positions = Position::where('status', 1)->get();
+        $departments = Department::where('status', 1)->get();
+
+        if($faculty){
+
+            return view('admin.users.edit-faculty')
+                ->with('user', $user)
+                ->with('faculty',$faculty)
+                ->with('positions',$positions)
+                ->with('departments',$departments);
+        }else{
+            
+            return redirect('/admin/list');
+        }
+    }
+
+    public function postAdminStudentEdit($id, EditStudentRequest $request) {
+
+        if ($request->wantsJson()) {
+
+            try{
+
+                $user = Auth::user();
+
+                $user = User::where('id', $id)->first();
+
+                if($user){
+
+                    $user->first_name = $request->first_name;
+                    $user->middle_name = $request->middle_name;
+                    $user->last_name = $request->last_name;
+                    $user->gender = $request->gender;
+                    $user->birth_date = Carbon::parse($request->birth_date)->format('Y-m-d');
+                    $user->grade_level = $request->grade_level;
+                    $user->save();
+
+                    return response()->json(array("result"=>true,"message"=> "Subject successfully updated.") ,200);
+                }else{
+
+                    return redirect('/admin/list');
+                }
+
+            }catch(\Exception $e){
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+            }
+
+        } else {
+
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
+    }
+
+    public function postAdminFacultyEdit($id, EditFacultyRequest $request) {
+
+        if ($request->wantsJson()) {
+
+            try{
+
+                $user = Auth::user();
+
+                $user = User::where('id', $id)->first();
+
+                if($user){
+
+                    $user->first_name = $request->first_name;
+                    $user->middle_name = $request->middle_name;
+                    $user->last_name = $request->last_name;
+                    $user->gender = $request->gender;
+                    $user->birth_date = Carbon::parse($request->birth_date)->format('Y-m-d');
+                    $user->position = $request->position;
+                    $user->department = $request->department;
+                    $user->save();
+
+                    return response()->json(array("result"=>true,"message"=> "Subject successfully updated.") ,200);
+                }else{
+
+                    return redirect('/admin/list');
+                }
+
+            }catch(\Exception $e){
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+            }
+
+        } else {
+
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
     }
 
     public function getAdminUsersGradeLevel() {
