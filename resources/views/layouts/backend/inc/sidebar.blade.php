@@ -42,6 +42,13 @@
 					</ul>
                 </li>
 				<li data-username="menu levels menu level 2.1 menu level 2.2" class="nav-item pcoded-hasmenu">
+					<a href="#" class="nav-link"><span class="pcoded-micon"><i class="feather icon-menu"></i></span><span class="pcoded-mtext">LRN</span></a>
+					<ul class="pcoded-submenu">
+                        <li class=""><a href="{{ url('/admin/lrn') }}" class="">List</a></li>
+                        <li class=""><a href="{{ url('/admin/lrn/add') }}" class="">Add</a></li>
+					</ul>
+				</li>
+				<li data-username="menu levels menu level 2.1 menu level 2.2" class="nav-item pcoded-hasmenu">
 					<a href="#" class="nav-link"><span class="pcoded-micon"><i class="feather icon-menu"></i></span><span class="pcoded-mtext">Security Keys</span></a>
 					<ul class="pcoded-submenu">
                         <li class=""><a href="{{ url('/admin/security-keys') }}" class="">List</a></li>

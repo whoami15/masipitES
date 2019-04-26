@@ -1,5 +1,5 @@
 @extends('layouts.backend.master')
-@section('title', 'Security Keys')
+@section('title', 'LRN')
 
 @section('header_scripts')
 <link href="{{ URL::asset('assets/backend/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
@@ -18,7 +18,7 @@
 @stop
 
 @section('content')
-<div ng-app="listSecurityKeysApp" ng-controller="listSecurityKeysCtrl as frm">
+<div ng-app="listLrnApp" ng-controller="listLrnCtrl as frm">
     <!-- [ breadcrumb ] start -->
     <div class="page-header">
         <div class="page-block">
@@ -29,7 +29,7 @@
                     </div>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#"><i class="feather icon-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="#">Security Keys List</a></li>
+                        <li class="breadcrumb-item"><a href="#">LRN List</a></li>
                     </ul>
                 </div>
             </div>
@@ -42,7 +42,7 @@
         <div class="col-xl-12 col-md-12">
             <div class="card user-list table-card">
                 <div class="card-header">
-                    <h5>Security Keys</h5>
+                    <h5>LRN</h5>
                 </div>
                 <div class="card-body pb-0">
                     <br>
@@ -55,11 +55,12 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Key</th>
+                                        <th>LRN</th>
                                         <th>Used by (Name)</th>
                                         <th>Status</th>
                                         <th>Used at</th>
                                         <th>Date Created</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -80,8 +81,8 @@
 <script src="{{ URL::asset('assets/backend/plugins/datatables/plugins/responsive/dataTables.responsive.min.js') }}" ></script>
 <script>
     (function () {
-        var listSecurityKeysApp = angular.module('listSecurityKeysApp', ['angular.filter']);
-        listSecurityKeysApp.controller('listSecurityKeysCtrl', function ($scope, $http, $sce) {
+        var listLrnApp = angular.module('listLrnApp', ['angular.filter']);
+        listLrnApp.controller('listLrnCtrl', function ($scope, $http, $sce) {
 
             var vm = this;
 
@@ -100,7 +101,7 @@
                             processing: true,
                             serverSide: true,
                             ajax: {
-                                url: '/admin/securitykeys-list-data',
+                                url: '/admin/lrn-list-data',
                                 data: function (data) {
 
                                     for (var i = 0, len = data.columns.length; i < len; i++) {
@@ -125,11 +126,12 @@
                              ],
                             columns: [
                                 {data: 'id', orderable: false, searchable: false},
-                                {data: 'key', name: 'key', orderable: false, searchable: true},
+                                {data: 'lrn', name: 'lrn', orderable: false, searchable: true},
                                 {data: 'name', name: 'name', orderable: false, searchable: false},
                                 {data: 'status', name: 'status', orderable: true, searchable: false},
                                 {data: 'used_at', name: 'used_at', orderable: false, searchable: false},
-                                {data: 'date', name: 'date'}
+                                {data: 'date', name: 'date'},
+                                {data: 'action', name: 'action', orderable: false, searchable: false}
                             ],
                             order: [[4, 'desc']],
                             "initComplete": function(settings, json) { 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\SecurityKeys;
+use App\Lrn;
 use App\GradeLevel;
 use App\Position;
 use App\Department;
@@ -123,21 +124,43 @@ class RegisterController extends Controller
 
             if($user_role == 1 || $user_role == "1") {
 
-                $user = new User;
-                $user->email = $request->email;
-                $user->username = $request->username;
-                $user->password = bcrypt($request->password);
-                $user->first_name = $request->first_name;
-                $user->middle_name = $request->middle_name;
-                $user->last_name = $request->last_name;
-                $user->role = $user_role;
-                $user->id_no = preg_replace('/\s/', '', $request->id_no);
-                $user->lrn = $this->generateLRN();
-                $user->grade_level = $request->grade_level;
-                $user->save();
+                $lrn = Lrn::where('lrn', $request->lrn)->first();
+                
+                if($lrn) {
 
-                Session::flash('success', "Successfully registered.");
-                return redirect('/login');
+                    if($lrn->status == "UNUSED") {
+
+                        $user = new User;
+                        $user->email = $request->email;
+                        $user->username = $request->username;
+                        $user->password = bcrypt($request->password);
+                        $user->first_name = $request->first_name;
+                        $user->middle_name = $request->middle_name;
+                        $user->last_name = $request->last_name;
+                        $user->role = $user_role;
+                        $user->id_no = preg_replace('/\s/', '', $request->id_no);
+                        $user->lrn = $request->lrn;
+                        $user->grade_level = $request->grade_level;
+                        $user->save();
+
+                        $lrn->used_by_user_id = $user->id;
+                        $lrn->status = "USED";
+                        $lrn->used_at = Carbon::now();
+                        $lrn->save();
+
+                        Session::flash('success', "Successfully registered.");
+                        return redirect('/login');
+                    } elseif($lrn->status == "USED") {
+
+                        Session::flash('danger', "LRN was already USED");
+                        return Redirect::back();
+                    }
+                } else {
+
+                    Session::flash('danger', "LRN was not found.");
+                    return Redirect::back();
+                }
+
             } elseif($user_role == 2 || $user_role == "2") {
 
                 $security_key = SecurityKeys::where('key', $request->security_key)->first();
@@ -191,15 +214,4 @@ class RegisterController extends Controller
         }
 
    }
-
-    public function generateLRN(){
-
-        $generated_lrn = mt_rand(100000000000, 999999999999);
-        $lrn = User::where('lrn', $generated_lrn)->first();
-        if(!$lrn){
-            $lrn = $generated_lrn;
-            return $lrn;
-        }
-
-    }
 }

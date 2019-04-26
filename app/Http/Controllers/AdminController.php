@@ -21,11 +21,14 @@ use App\Http\Requests\Admin\EditEventsRequest;
 use App\Http\Requests\Admin\UpdateProfilePasswordRequest;
 use App\Http\Requests\Admin\EditStudentRequest;
 use App\Http\Requests\Admin\EditFacultyRequest;
+use App\Http\Requests\Admin\AddLrnRequest;
+use App\Http\Requests\Admin\EditLrnRequest;
 use Yajra\Datatables\Datatables;
 use Carbon\Carbon;
 use App\User;
 use App\Announcement;
 use App\SecurityKeys;
+use App\Lrn;
 use App\LearningMaterial;
 use App\Subject;
 use App\GradeLevel;
@@ -879,6 +882,143 @@ class AdminController extends Controller
             }
 
             return response()->json(array("result"=>true,"message"=> "Successfully generated ".$request->quantity." Security Keys.") ,200);
+
+        } else {
+
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
+    }
+
+    public function getAdminLrn() {
+
+        $user = Auth::user();
+        
+        return view('admin.lrn.list')->with('user',$user);
+    }
+
+    public function getAdminLrnData(Request $request) {
+
+        if ($request->wantsJson()) {
+
+            $user = Auth::user();
+            $lrn = Lrn::orderBy('created_at', 'desc');
+
+            if($lrn){
+
+                return Datatables::of($lrn)
+                ->editColumn('lrn', function ($lrn) {
+                    return $lrn->lrn;
+                })
+                ->editColumn('name', function ($lrn) {
+                    if($lrn->used_by_user_id == ''){
+                        return '';
+                    }else{
+                        return ucwords($lrn->user->full_name);
+                    }
+                })
+                ->editColumn('status', function ($lrn) {
+                    return $lrn->status; 
+                })
+                ->editColumn('used_at', function ($lrn) {
+                    if($lrn->used_at == ''){
+                        return '';
+                    }else{
+                        return date('F j, Y g:i a', strtotime($lrn->used_at));
+                    }
+                })
+                ->addColumn('action', function ($lrn) {
+                    return '<a href="/admin/lrn/edit/'.$lrn->id.'">Edit</a>';
+                    
+                })
+                ->addColumn('id', function ($lrn) {
+                    return $lrn->id;
+                })
+                ->addColumn('date', function ($lrn) {
+                    return date('F j, Y g:i a', strtotime($lrn->created_at));
+                })
+                ->addIndexColumn()
+                ->rawColumns(['lrn','name','status','used_at','action','id','date'])
+                ->make(true);
+
+            }else{
+
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+            }
+        } else {
+            
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
+
+    }
+
+    public function getAdminAddLrn() {
+
+        $user = Auth::user();
+
+        return view('admin.lrn.create')->with('user',$user);
+    }
+
+    public function postAdminAddLrn(AddLrnRequest $request) {
+
+        if ($request->wantsJson()) {
+
+            try{
+
+                $user = Auth::user();
+
+                $lrn = new Lrn();
+                $lrn->lrn = $request->lrn;
+                $lrn->save();
+                
+                return response()->json(array("result"=>true,"message"=> "Lrn successfully added.") ,200);
+                
+            }catch(\Exception $e){
+
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+            }
+
+        } else {
+
+            return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again!'),422);
+        }
+        
+    }
+
+    public function getAdminEditLrn($id) {
+
+        $user = Auth::user();
+        
+        $getlrn = Lrn::find($id);
+
+        if($getlrn){
+
+            return view('admin.lrn.edit')
+            ->with('user',$user)
+            ->with('getlrn',$getlrn);
+        } else {
+
+            return redirect('/admin/lrn');
+        }
+    }
+
+    public function postAdminEditLrn($id, EditLrnRequest $request) {
+
+        if ($request->wantsJson()) {
+
+            try{
+
+                $user = Auth::user();
+
+                $lrn = Lrn::where('id', $id)->first();
+                $lrn->lrn = $request->lrn;
+                $lrn->save();
+
+                return response()->json(array("result"=>true,"message"=> "Lrn successfully updated.") ,200);
+
+            }catch(\Exception $e){
+
+                return response()->json(array("result"=>false,"message"=>'Something went wrong. Please try again.'),422);
+            }
 
         } else {
 

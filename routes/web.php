@@ -59,6 +59,13 @@ Route::middleware(['GrahamCampbell\Throttle\Http\Middleware\ThrottleMiddleware:1
     Route::get('/admin/security-keys/generate', array('as' => 'get-admin-generate-keys','uses' => 'AdminController@getAdminGenerateKeys'));
     Route::post('/admin/security-keys/generate', array('as' => 'post-admin-generate-keys','uses' => 'AdminController@postAdminGenerateKeys'));
 
+    Route::get('/admin/lrn', array('as' => 'get-admin-list-lrn','uses' => 'AdminController@getAdminLrn'));
+    Route::get('/admin/lrn-list-data', array('as' => 'get-admin-lrn-list-data','uses' => 'AdminController@getAdminLrnData'));
+    Route::get('/admin/lrn/add', array('as' => 'get-admin-add-lrn','uses' => 'AdminController@getAdminAddLrn'));
+    Route::post('/admin/lrn/add', array('as' => 'post-admin-add-lrn','uses' => 'AdminController@postAdminAddLrn'));
+    Route::get('/admin/lrn/edit/{id}', array('as' => 'get-admin-edit-lrn','uses' => 'AdminController@getAdminEditLrn'));
+    Route::post('/admin/lrn/{id}/edit', array('as' => 'post-admin-edit-lrn','uses' => 'AdminController@postAdminEditLrn'));
+
     Route::get('/admin/announcements', array('as' => 'get-admin-announcements','uses' => 'AdminController@getAdminAnnouncements'));
     Route::get('/admin/announcements-data', array('as' => 'get-admin-announcements-data','uses' => 'AdminController@getAdminAnnouncementsData'));
     Route::get('/admin/announcements/view/{id}', array('as' => 'get-admin-announcements-view','uses' => 'AdminController@getAdminViewAnnouncement'));

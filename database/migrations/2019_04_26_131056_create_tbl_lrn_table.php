@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSecurityKeysTable extends Migration
+class CreateTblLrnTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateSecurityKeysTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_security_keys', function (Blueprint $table) {
+        Schema::create('tbl_lrn', function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->bigIncrements('id');
             $table->unsignedBigInteger('used_by_user_id')->nullable();
-            $table->string('key')->unique()->nullable();
+            $table->string('lrn')->unique()->nullable();
             $table->enum('status', ['USED', 'UNUSED'])->default('UNUSED');
             $table->dateTime('used_at')->nullable();
             $table->timestamps();
 
-            $table->index(['key', 'status']);
+            $table->index(['status']);
             $table->foreign('used_by_user_id')->references('id')->on('tbl_users')->onDelete('cascade');
         });
     }
@@ -34,6 +34,6 @@ class CreateSecurityKeysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_security_keys');
+        Schema::dropIfExists('tbl_lrn');
     }
 }

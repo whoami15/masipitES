@@ -18,12 +18,6 @@
                         <form role="form" method="POST" action="{{ url('/register') }}">
                         {!! csrf_field() !!}
 
-                        @if(session('success'))
-                        <div class="alert alert-success" role="alert">
-                            {!! session('success') !!}
-                        </div>
-                        @endif
-
                         @if(session('danger'))
                         <div class="alert alert-warning" role="alert">
                         {!! session('danger') !!}
@@ -97,6 +91,12 @@
                                 </select>
                             </div>
                             <div ng-if="frm.role == 1">
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="feather icon-lock"></i></span>
+                                    </div>
+                                    <input type="text" name="lrn" id="lrn" class="form-control" maxlength="12" placeholder="12 digit LRN">
+                                </div>
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="feather icon-user"></i></span>

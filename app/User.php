@@ -56,6 +56,10 @@ class User extends Authenticatable
         return $this->hasMany('App\SecurityKeys', 'used_by_user_id', 'id');
     }
 
+    public function lrn(){
+        return $this->hasMany('App\Lrn', 'used_by_user_id', 'id');
+    }
+
     public function news(){
         return $this->hasMany('App\News', 'user_id', 'id');
     }
