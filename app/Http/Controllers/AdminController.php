@@ -927,7 +927,9 @@ class AdminController extends Controller
                     }
                 })
                 ->addColumn('action', function ($lrn) {
-                    return '<a href="/admin/lrn/edit/'.$lrn->id.'">Edit</a>';
+                    if($lrn->status == 'UNUSED'){
+                        return '<a href="/admin/lrn/edit/'.$lrn->id.'">Edit</a>';
+                    }
                     
                 })
                 ->addColumn('id', function ($lrn) {
@@ -1009,10 +1011,15 @@ class AdminController extends Controller
 
                 $user = Auth::user();
 
-                $lrn = Lrn::where('id', $id)->first();
-                $lrn->lrn = $request->lrn;
-                $lrn->save();
+                $lrn = Lrn::where('id', $id)->where('status', 'UNUSED')->first();
+                if($lrn) {
+                    $lrn->lrn = $request->lrn;
+                    $lrn->save();
+                } else {
 
+                    return response()->json(array("result"=>false,"message"=>'You cannot edit USED LRN.'),422);
+                }
+               
                 return response()->json(array("result"=>true,"message"=> "Lrn successfully updated.") ,200);
 
             }catch(\Exception $e){
