@@ -24,7 +24,7 @@
     <!-- [ Main Content ] start -->
     <div class="row">
         <!-- [ task-detail-left ] start -->
-        <div class="col-xl-4 col-lg-12 task-detail-right">
+        <div class="col-xl-4 col-md-4 col-sm-12 col-lg-4 task-detail-right">
             <div class="card">
                 <div class="card-header">
                     <h5>Student Profile</h5>
@@ -34,32 +34,25 @@
                         <tbody>
                             <br><br>
                             <tr>
-                                <td>LRN:</td>
-                                <td class="text-right"><h6>{{ $student->lrn }}</h6></td>
+                                <td>LRN: <br><h6>{{ $student->lrn }}</h6></td>
                             </tr>
                             <tr>
-                                <td>ID Number:</td>
-                                <td class="text-right">{{ strToUpper($student->id_no) }}</td>
+                                <td>ID Number: <br>{{ strToUpper($student->id_no) }}</td>
                             </tr>
                             <tr>
-                                <td>Full Name:</td>
-                                <td class="text-right">{{ ucwords($student->full_name) }}</td>
+                                <td>Full Name: <br>{{ ucwords($student->full_name) }}</td>
                             </tr>
                             <tr>
-                                <td>Grade Level:</td>
-                                <td class="text-right">{{ $student->grade_level_user->description }}</td>
+                                <td>Grade Level: <br>{{ $student->grade_level_user->description }}</td>
                             </tr>
                             <tr>
-                                <td>Gender:</td>
-                                <td class="text-right">{{ $student->gender }}</td>
+                                <td>Gender: <br>{{ $student->gender }}</td>
                             </tr>
                             <tr>
-                                <td>Birthdate:</td>
-                                <td class="text-right">{{ $student->birth_date !== null ? date('F j, Y', strtotime($student->birth_date)) : null }}</td>
+                                <td>Birthdate: <br>{{ $student->birth_date !== null ? date('F j, Y', strtotime($student->birth_date)) : null }}</td>
                             </tr>
                             <tr>
-                                <td>Registered on:</td>
-                                <td class="text-right">{{ date('F j, Y g:i a', strtotime($student->created_at)) }}</td>
+                                <td>Registered on: <br>{{ date('F j, Y g:i a', strtotime($student->created_at)) }}</td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -72,7 +65,7 @@
         </div>
         <!-- [ task-detail-left ] end -->
         <!-- [ task-detail-right ] start -->
-        <div class="col-xl-8 col-lg-12">
+        <div class="col-xl-8 col-md-8 col-sm-12 col-lg-8">
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-3">Edit Profile</h5>

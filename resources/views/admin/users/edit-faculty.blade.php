@@ -24,7 +24,7 @@
     <!-- [ Main Content ] start -->
     <div class="row">
         <!-- [ task-detail-left ] start -->
-        <div class="col-xl-4 col-lg-12 task-detail-right">
+        <div class="col-xl-4 col-md-4 col-sm-12 col-lg-12 task-detail-right">
             <div class="card">
                 <div class="card-header">
                     <h5>Faculty Profile</h5>
@@ -34,24 +34,19 @@
                         <tbody>
                             <br><br>
                             <tr>
-                                <td>Full Name:</td>
-                                <td class="text-right">{{ ucwords($faculty->full_name) }}</td>
+                                <td>Full Name: <br>{{ ucwords($faculty->full_name) }}</td>
                             </tr>
                             <tr>
-                                <td>Position:</td>
-                                <td class="text-right">{{ $faculty->position }}</td>
+                                <td>Position: <br>{{ $faculty->position }}</td>
                             </tr>
                             <tr>
-                                <td>Department:</td>
-                                <td class="text-right">{{ $faculty->department }}</td>
+                                <td>Department: <br>{{ $faculty->department }}</td>
                             </tr>
                             <tr>
-                                <td>Birthdate:</td>
-                                <td class="text-right">{{ $faculty->birth_date !== null ? date('F j, Y', strtotime($faculty->birth_date)) : null }}</td>
+                                <td>Birthdate: <br>{{ $faculty->birth_date !== null ? date('F j, Y', strtotime($faculty->birth_date)) : null }}</td>
                             </tr>
                             <tr>
-                                <td>Registered on:</td>
-                                <td class="text-right">{{ date('F j, Y g:i a', strtotime($faculty->created_at)) }}</td>
+                                <td>Registered on: <br>{{ date('F j, Y g:i a', strtotime($faculty->created_at)) }}</td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -64,7 +59,7 @@
         </div>
         <!-- [ task-detail-left ] end -->
         <!-- [ task-detail-right ] start -->
-        <div class="col-xl-8 col-lg-12">
+        <div class="col-xl-8 col-md-8 col-sm-12 col-lg-8">
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-3">Edit Profile</h5>
