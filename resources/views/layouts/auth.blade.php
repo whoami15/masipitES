@@ -15,10 +15,12 @@
 	<meta property="og:title" content="Masipit Elementary School Official Website">
   <meta name="author" content="MinSCAT Students">
   <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="{{ URL::asset('assets/backend/images/og_image.jpg') }}">
+  <meta property="og:image:width" content="400"> 
+  <meta property="og:image:height" content="300">
   <meta name="description" content="Masipit Elementary School Official Website">
   <meta property="og:description" content="Masipit Elementary School Official Website">
-  <link rel="canonical" href="/">
-  <meta property="og:url" content="/">
+  <meta property="og:url" content="http://masipites.com">
   <meta property="og:site_name" content="Masipit Elementary School Official Website">
   <script type="application/ld+json">
     {
