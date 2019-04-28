@@ -42,7 +42,7 @@
                     	<div class="sidebar-head"><span>Comments</span></div>
                     	<div class="sidebar-text">
                         	<div class="comment-wrap">
-                                <div class="fb-comments" data-href="http://masipites.com" data-width="100%" data-numposts="5"></div>
+                                <div class="fb-comments" data-href="{{ url('/news/'.$news_detail->slug) }}" data-width="100%" data-numposts="5"></div>
                             </div>
                         </div>
                     </div>
