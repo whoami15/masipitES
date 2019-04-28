@@ -20,6 +20,7 @@
     <meta name="author" content="MinSCAT Students">
     <meta property="og:locale" content="en_US">
     <meta name="description" content="The Official Website of Masipit Elementary School">
+    <link rel="canonical" href="{{ url()->full() }}"/>
     <meta property="og:image" content="{{ URL::asset('assets/frontend/images/og_image.jpg') }}">
     <meta property="og:image:width" content="400"> 
     <meta property="og:image:height" content="300">
