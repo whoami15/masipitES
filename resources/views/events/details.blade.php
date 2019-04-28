@@ -38,8 +38,17 @@
                         </div>                        
                     </div>
 
-                    <div class="sinlepost-navigation direction-nav row">
+                    <br>
+
+                    <div class="widgets-box">
+                    	<div class="sidebar-head"><span>Comments</span></div>
+                    	<div class="sidebar-text">
+                        	<div class="comment-wrap">
+                                <div class="fb-comments" data-href="http://masipites.com" data-width="100%" data-numposts="5"></div>
+                            </div>
+                        </div>
                     </div>
+                    
                     @if($related_events)
                     <div class="widgets-box">
                     	<div class="sidebar-head"><span>Related Events</span></div>
