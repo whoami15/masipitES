@@ -32,12 +32,12 @@ class RegisterRequest extends FormRequest
             'last_name' => 'required|min:1|max:50',
             'role' => 'required',
             'lrn' => 'numeric|required_if:role,==,1',
-            'id_no' => 'required_if:role,==,1',
+            'id_no' => 'unique:tbl_users,id_no|required_if:role,==,1',
             'grade_level' => 'exists:tbl_grade_level,id|required_if:role,==,1',
             'position' => 'exists:tbl_position,position|required_if:role,==,2',
             'department' => 'exists:tbl_department,department|required_if:role,==,2',
             'security_key' => 'required_if:role,==,2',
-            //'g-recaptcha-response' => 'required|captcha',
+            'g-recaptcha-response' => 'required|captcha',
         ];
     }
 
