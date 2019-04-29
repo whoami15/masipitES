@@ -26,7 +26,7 @@ class LoginRequest extends FormRequest
         return [
             'username' => 'required|max:60',
             'password' => 'required|alphaNum|min:3|max:60',
-            //'g-recaptcha-response' => 'required|captcha',
+            'g-recaptcha-response' => 'required|captcha',
         ];
     }
 
