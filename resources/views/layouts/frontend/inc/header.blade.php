@@ -22,12 +22,12 @@
             <div id="menuzord" class="menuzord red pull-left">
                 <a href="{{ url('/') }}" class="menuzord-brand"><img src="{{ URL::asset('assets/frontend/images/logo.png') }}" alt="logo"></a>
                 <ul class="menuzord-menu">
-                    <li class="active"><a href="{{ url('/') }}">Home</a>
+                    <li {!!(Request::is('/') ? 'class="active"' : '') !!}><a href="{{ url('/') }}">Home</a>
                     </li>
-                    <li><a href="{{ url('/news') }}">News</a></li>
-                    <li><a href="{{ url('/events') }}">Events</a></li>
-                    <li><a href="{{ url('/teachers') }}">Teachers</a></li>
-                    <li><a href="{{ url('/contact') }}">Contact Us</a></li>
+                    <li {!!(Request::is('news') ? 'class="active"' : '') !!}><a href="{{ url('/news') }}">News</a></li>
+                    <li {!!(Request::is('events') ? 'class="active"' : '') !!}><a href="{{ url('/events') }}">Events</a></li>
+                    <li {!!(Request::is('teachers') ? 'class="active"' : '') !!}><a href="{{ url('/teachers') }}">Teachers</a></li>
+                    <li {!!(Request::is('contact') ? 'class="active"' : '') !!}><a href="{{ url('/contact') }}">Contact Us</a></li>
                     <li>
                     @auth
                         @if(Auth::user()->role == 0)
