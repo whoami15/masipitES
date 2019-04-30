@@ -2603,6 +2603,11 @@ class AdminController extends Controller
                 if (Hash::check($request->current_password ,Auth::user()->password))
                 {
 
+                    if(strcmp($request->current_password, $request->password) == 0){
+                        //Current password and new password are same
+                        return response()->json(array("result"=>false,"message"=>'New Password cannot be the same as your current password. Please choose a different password.'),422);
+                    }
+
                     $user = Auth::user();
                     $user->password = bcrypt($request->password);
                     $user->save();
