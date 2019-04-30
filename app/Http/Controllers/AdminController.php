@@ -2363,7 +2363,7 @@ class AdminController extends Controller
                 $events->title = $request->title;
                 $events->content = addslashes($request->content);
                 $events->event_date = Carbon::parse($request->event_date)->format('Y-m-d');
-                $events->event_time = Carbon::parse($request->event_time)->format('H:i A');
+                $events->event_time = Carbon::parse(Carbon::now())->format('Y-m-d') .' '.Carbon::parse($request->event_time)->format('H:i');
                 $events->event_location = $request->event_location;
 
                 if($request->file('photo')) {
