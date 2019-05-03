@@ -41,7 +41,10 @@
                 @endif
                 </a>
 							</li>
-              <li><a href="{{ url('/logout') }}" class="dropdown-item"><i class="feather icon-lock"></i> Logout</a></li>
+              <li><a href="{{ url('/logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="feather icon-lock"></i> Logout</a></li>
+							<form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+							{!! csrf_field() !!}
+							</form>
 						</ul>
 					</div>
 				</div>
