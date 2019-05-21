@@ -69,6 +69,20 @@ class AdminController extends Controller
         $total_news_today = News::whereDate('created_at', Carbon::today())->count();
         $total_events = Events::count();
         $total_events_today = Events::whereDate('created_at', Carbon::today())->count();
+
+        for($i=1; $i <= 12; $i++) {
+            $get_monthly_student_users = DB::Select(DB::raw("SELECT * FROM tbl_users WHERE role = 1 AND YEAR(created_at) = YEAR(CURRENT_DATE()) AND MONTH(created_at) = $i"));
+            $chart['student_users'][$i] = count($get_monthly_student_users);
+            $get_monthly_faculty_users = DB::Select(DB::raw("SELECT * FROM tbl_users WHERE role = 2 AND YEAR(created_at) = YEAR(CURRENT_DATE()) AND MONTH(created_at) = $i"));
+            $chart['faculty_users'][$i] = count($get_monthly_faculty_users);
+            $get_monthly_files = DB::Select(DB::raw("SELECT * FROM tbl_learning_materials WHERE status = 1 AND YEAR(created_at) = YEAR(CURRENT_DATE()) AND MONTH(created_at) = $i"));
+            $chart['files'][$i] = count($get_monthly_files);
+            $get_monthly_news = DB::Select(DB::raw("SELECT * FROM tbl_news WHERE status = 1 AND YEAR(created_at) = YEAR(CURRENT_DATE()) AND MONTH(created_at) = $i"));
+            $chart['news'][$i] = count($get_monthly_news);
+            $get_monthly_events = DB::Select(DB::raw("SELECT * FROM tbl_events WHERE status = 1 AND YEAR(created_at) = YEAR(CURRENT_DATE()) AND MONTH(created_at) = $i"));
+            $chart['events'][$i] = count($get_monthly_events);
+        }
+
         return view('admin.index')
             ->with('user',$user)
             ->with('pending_users',$pending_users)
@@ -80,7 +94,8 @@ class AdminController extends Controller
             ->with('total_news', $total_news)
             ->with('total_news_today', $total_news_today)
             ->with('total_events', $total_events)
-            ->with('total_events_today', $total_events_today);       
+            ->with('total_events_today', $total_events_today)
+            ->with('chart', $chart);      
     }
 
     public function postAdminAcceptUser($id, Request $request) {

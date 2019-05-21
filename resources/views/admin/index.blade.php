@@ -1,6 +1,18 @@
 @extends('layouts.backend.master')
 @section('title', 'Dashboard')
 
+@section('header_scripts')
+<style>
+    .admin-chart {
+        min-width: 100%;
+        height: 400px;
+        margin: 0 auto;
+        margin-bottom: 10px!important;
+        border: 1px solid #e6ecf5;
+    }
+</style>
+@endsection
+
 @section('content')
 <div ng-app="dashboardApp" ng-controller="dashboardCtrl as frm">
     <!-- [ breadcrumb ] start -->
@@ -21,6 +33,17 @@
     </div>
     <!-- [ breadcrumb ] end -->
     <!-- [ Main Content ] start -->
+    <div class="row">
+        <div class="col-xl-12 col-md-12 col-sm-12">
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="m-b-15">
+                        <div id="admin-chart-dashboard" class="admin-chart m-b-20"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-xl-12 col-md-12 col-sm-12">
             <div class="row">
@@ -272,6 +295,76 @@
         });
     })();
 
+</script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script>
+    $(function () {
+        Highcharts.setOptions();
+        $('#admin-chart-dashboard').highcharts({
+            chart: {
+                type: 'column',
+                //backgroundColor: 'transparent',
+            },
+            title: {
+                text: "Monthly Average"
+            },
+            xAxis: {
+                categories: [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec"
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: "{{ date('Y') }}"
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{literal}{point.key}{/literal}</span><table>',
+                pointFormat: '<tr><td style="color:{literal}{series.color}{/literal};padding:0">{literal}{series.name}{/literal}: </td>' +
+                    '<td style="padding:0"><b>{literal}{point.y}{/literal}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: "Student",
+                data: [ {{implode(', ', $chart['student_users'])}} ]
+            }, {
+                name: "Faculty",
+                data: [ {{implode(', ', $chart['faculty_users'])}} ]
+            }, {
+                name: "Learning Materials",
+                data: [ {{implode(', ', $chart['files'])}} ]
+            }, {
+                name: "News",
+                data: [ {{implode(', ', $chart['news'])}} ]
+            }, {
+                name: "Events",
+                data: [ {{implode(', ', $chart['events'])}} ]
+            }]
+        });
+    });
 </script>
 
 @stop

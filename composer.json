@@ -17,6 +17,7 @@
         "laravelcollective/html": "^5.4.0",
         "maatwebsite/excel": "^3.1",
         "mews/purifier": "^2.1",
+        "muhamadrezaar/highcharts": "dev-master",
         "prettus/l5-repository": "^2.6",
         "yajra/laravel-datatables-oracle": "^8.0"
     },
