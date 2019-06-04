@@ -401,17 +401,17 @@ class AdminController extends Controller
 
                 $user = Auth::user();
 
-                $user = User::where('id', $id)->first();
+                $student = User::where('id', $id)->first();
 
-                if($user){
+                if($student){
 
-                    $user->first_name = $request->first_name;
-                    $user->middle_name = $request->middle_name;
-                    $user->last_name = $request->last_name;
-                    $user->gender = $request->gender;
-                    $user->birth_date = Carbon::parse($request->birth_date)->format('Y-m-d');
-                    $user->grade_level = $request->grade_level;
-                    $user->save();
+                    $student->first_name = $request->first_name;
+                    $student->middle_name = $request->middle_name;
+                    $student->last_name = $request->last_name;
+                    $student->gender = $request->gender;
+                    $student->birth_date = Carbon::parse($request->birth_date)->format('Y-m-d');
+                    $student->grade_level = $request->grade_level;
+                    $student->save();
 
                     return response()->json(array("result"=>true,"message"=> "Student successfully updated.") ,200);
                 }else{
@@ -437,18 +437,18 @@ class AdminController extends Controller
 
                 $user = Auth::user();
 
-                $user = User::where('id', $id)->first();
+                $faculty = User::where('id', $id)->first();
 
-                if($user){
+                if($faculty){
 
-                    $user->first_name = $request->first_name;
-                    $user->middle_name = $request->middle_name;
-                    $user->last_name = $request->last_name;
-                    $user->gender = $request->gender;
-                    $user->birth_date = Carbon::parse($request->birth_date)->format('Y-m-d');
-                    $user->position = $request->position;
-                    $user->department = $request->department;
-                    $user->save();
+                    $faculty->first_name = $request->first_name;
+                    $faculty->middle_name = $request->middle_name;
+                    $faculty->last_name = $request->last_name;
+                    $faculty->gender = $request->gender;
+                    $faculty->birth_date = Carbon::parse($request->birth_date)->format('Y-m-d');
+                    $faculty->position = $request->position;
+                    $faculty->department = $request->department;
+                    $faculty->save();
 
                     return response()->json(array("result"=>true,"message"=> "Faculty successfully updated.") ,200);
                 }else{
