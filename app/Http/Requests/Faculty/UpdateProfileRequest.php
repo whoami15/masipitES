@@ -22,7 +22,7 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'gender' => 'required|exists:tbl_users,gender',
+            'gender' => 'required',
             'birth_date' => 'required'
         ];
     }
